@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Itzael — Digital Growth & Content Systems</title>
+  <meta name="description" content="Itzael — digital growth, content systems, and clean web presence. Zero hype." />
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --bg2:#0B1020;
+      --card:rgba(255,255,255,.06);
+      --text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);
+      --muted2:rgba(234,240,255,.55);
+      --line:rgba(255,255,255,.12);
+      --shadow:0 18px 60px rgba(0,0,0,.55);
+      --glow:0 0 60px rgba(120,86,255,.40);
+      --r:20px;
+      --accentA:#7B5CFF;
+      --accentB:#FF4FD8;
+      --accentC:#2EE9FF;
+      --max:1180px;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 15% 10%, rgba(123,92,255,.22), transparent 55%),
+        radial-gradient(800px 500px at 85% 20%, rgba(255,79,216,.18), transparent 55%),
+        radial-gradient(700px 520px at 70% 90%, rgba(46,233,255,.12), transparent 55%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:28px 20px 90px}
+
+    /* NAV */
+    .nav{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 16px;
+      border:1px solid var(--line);
+      background:rgba(10,14,26,.6);
+      backdrop-filter:blur(14px);
+      border-radius:999px;
+      position:sticky;top:14px;z-index:20;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .dot{
+      width:12px;height:12px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accentA),var(--accentB));
+      box-shadow:var(--glow);
+    }
+    .brand b{letter-spacing:.4px}
+    .navlinks{display:flex;gap:16px;align-items:center}
+    .navlinks a{
+      font-size:13px;
+      color:var(--muted);
+      padding:8px 12px;
+      border-radius:999px;
+    }
+    .navlinks a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:11px 16px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
+      font-size:14px;
+    }
+    .btn.primary{
+      border-color:rgba(123,92,255,.45);
+      background:linear-gradient(135deg,rgba(123,92,255,.28),rgba(255,79,216,.18));
+      box-shadow:var(--shadow),var(--glow);
+    }
+    .pill{
+      font-family:var(--mono);
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:rgba(234,240,255,.85);
+    }
+
+    /* HERO */
+    .hero{margin-top:42px}
+    .grid{display:grid;grid-template-columns:1.35fr .65fr;gap:26px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
+
+    .card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+      border-radius:var(--r);
+      padding:28px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .kicker{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:var(--mono);
+      font-size:12px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:rgba(234,240,255,.8);
+    }
+
+    h1{
+      font-size:48px;
+      line-height:1.05;
+      margin:18px 0 14px;
+      letter-spacing:-.8px;
+    }
+
+    .sub{
+      color:var(--muted);
+      max-width:62ch;
+      line-height:1.65;
+      font-size:16px;
+    }
+
+    .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+
+    .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .chip{
+      font-size:12px;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      color:var(--muted);
+    }
+
+    /* STATS */
+    .stats{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .stat{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.25);
+      border-radius:18px;
+      padding:18px;
+    }
+    .stat .n{
+      font-family:var(--mono);
+      font-size:22px;
+      letter-spacing:.4px;
+    }
+    .stat .l{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted2);
+    }
+
+    /* SECTIONS */
+    section{margin-top:60px}
+    .sec-head h2{margin:0;font-size:22px}
+    .sec-head p{margin:6px 0 0;color:var(--muted2);font-size:13px}
+
+    .cols{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-top:22px;
+    }
+    @media(max-width:900px){.cols{grid-template-columns:1fr}}
+
+    .tile{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      border-radius:var(--r);
+      padding:22px;
+    }
+    .tile h3{margin:0 0 8px;font-size:17px}
+    .tile p{margin:0;color:var(--muted);line-height:1.6}
+    .tile ul{
+      margin:12px 0 0;
+      padding-left:18px;
+      color:var(--muted2);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    /* PROJECTS */
+    .projects{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:22px;
+      margin-top:26px;
+    }
+    @media(max-width:900px){.projects{grid-template-columns:1fr}}
+
+    .proj{
+      display:flex;
+      gap:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.05);
+      border-radius:var(--r);
+      padding:22px;
+    }
+    .badge{
+      width:46px;height:46px;
+      border-radius:14px;
+      background:linear-gradient(135deg,rgba(123,92,255,.35),rgba(255,79,216,.22));
+      box-shadow:var(--glow);
+      flex-shrink:0;
+    }
+    .proj p{margin:6px 0;color:var(--muted);line-height:1.55}
+    .meta{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .meta span{
+      font-family:var(--mono);
+      font-size:11px;
+      border:1px solid rgba(255,255,255,.14);
+      padding:4px 8px;
+      border-radius:999px;
+      color:var(--muted2);
+    }
+
+    /* FOOTER */
+    .footer{
+      margin-top:70px;
+      padding-top:22px;
+      border-top:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+      font-size:13px;
+      color:var(--muted2);
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="nav">
+    <div class="brand">
+      <span class="dot"></span>
+      <b>Itzael</b>
+    </div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#what">What I Do</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a class="btn" href="#links">Links</a>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="grid">
+      <div class="card">
+        <div class="kicker">Digital Growth • Content Systems • Web Presence</div>
+
+        <h1>Professional digital presence.<br/>Zero hype.</h1>
+
+        <p class="sub">
+          I build clean systems for growth, visibility, and content at scale.
+          Focused on short-form ecosystems, platform strategy, and execution.
+        </p>
+
+        <div class="cta" id="links">
+          <a class="btn primary" href="https://www.tiktok.com/@lzkszk" target="_blank">TikTok <span class="pill">follow</span></a>
+          <a class="btn" href="https://www.instagram.com/nnedkz" target="_blank">Instagram <span class="pill">dm</span></a>
+          <a class="btn" href="#" target="_blank">YouTube <span class="pill">watch</span></a>
+          <a class="btn" href="#contact">Contact <span class="pill">email</span></a>
+        </div>
+
+        <div class="chips">
+          <span class="chip">100k+ YouTube</span>
+          <span class="chip">Shorts Monetized</span>
+          <span class="chip">Growth Systems</span>
+          <span class="chip">Clean Branding</span>
+        </div>
+      </div>
+
+      <aside class="card">
+        <div class="stats">
+          <div class="stat">
+            <div class="n">100K+</div>
+            <div class="l">YouTube Subscribers</div>
+          </div>
+          <div class="stat">
+            <div class="n">9K+</div>
+            <div class="l">TikTok Followers</div>
+          </div>
+          <div class="stat">
+            <div class="n">Short-Form</div>
+            <div class="l">Core Focus</div>
+          </div>
+          <div class="stat">
+            <div class="n">EN / ES</div>
+            <div class="l">Bilingual</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </header>
+
+  <!-- CONTINÚA AQUÍ -->
+</div>
+</body>
+</html>
+
+  <!-- CONTINÚA AQUÍ -->
+
+  <section id="about">
+    <div class="sec-head">
+      <h2>About</h2>
+      <p>Modern bio — no fluff (EN primary / ES secondary)</p>
+    </div>
+
+    <div class="cols">
+      <div class="tile">
+        <h3>Who I am</h3>
+        <p>
+          Itzael — a creator focused on <b>digital growth</b> and <b>content systems</b>.
+          I build clean strategies that scale: formats, hooks, publishing flow, and brand presence.
+        </p>
+        <ul>
+          <li><b>EN:</b> Growth + execution, not “motivation.”</li>
+          <li><b>ES:</b> Crecimiento y ejecución, sin vender humo.</li>
+        </ul>
+      </div>
+
+      <div class="tile">
+        <h3>How I work</h3>
+        <p>
+          I turn messy ideas into repeatable systems: fast iteration, clear messaging, and retention-first structure.
+        </p>
+        <ul>
+          <li><b>EN:</b> Formats → hooks → editing rhythm → distribution</li>
+          <li><b>ES:</b> Formatos → ganchos → ritmo de edición → publicación</li>
+        </ul>
+      </div>
+
+      <div class="tile">
+        <h3>What I’m building</h3>
+        <p>
+          A digital identity that looks premium and performs: clean links, clear positioning, and project-based proof.
+        </p>
+        <ul>
+          <li><b>EN:</b> Long-term collaborations & serious projects</li>
+          <li><b>ES:</b> Colaboraciones serias y proyectos “nivel”</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="what">
+    <div class="sec-head">
+      <h2>What I Do</h2>
+      <p>Clear value in seconds</p>
+    </div>
+
+    <div class="cols">
+      <div class="tile">
+        <h3>Short-Form Growth Systems</h3>
+        <p>
+          Scalable short-form strategy: hooks, pacing, retention, and posting cadence — built for volume and consistency.
+        </p>
+        <ul>
+          <li><b>EN:</b> Hook engineering, retention structure, format selection</li>
+          <li><b>ES:</b> Ganchos, retención, formatos que escalan</li>
+        </ul>
+      </div>
+
+      <div class="tile">
+        <h3>Content Pipelines (AI-assisted)</h3>
+        <p>
+          Production workflows that ship: script → assets → edit → captions → publish.
+          Less friction. More output.
+        </p>
+        <ul>
+          <li><b>EN:</b> Repeatable workflows, templates, fast iteration</li>
+          <li><b>ES:</b> Flujo repetible, plantillas, iteración rápida</li>
+        </ul>
+      </div>
+
+      <div class="tile">
+        <h3>Brand & Web Presence</h3>
+        <p>
+          Clean identity that looks premium: landing pages, positioning, and structure that makes people take you seriously.
+        </p>
+        <ul>
+          <li><b>EN:</b> Visual consistency + clarity + proof</li>
+          <li><b>ES:</b> Consistencia + claridad + credibilidad</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="sec-head">
+      <h2>Projects</h2>
+      <p>Proof and systems I’m building</p>
+    </div>
+
+    <div class="projects">
+      <div class="proj">
+        <div class="badge"></div>
+        <div>
+          <h3>Shorts Channels (Monetized)</h3>
+          <p>
+            Channels built around repeatable formats and retention mechanics.
+            Focused on consistent output and scalable growth.
+          </p>
+          <div class="meta">
+            <span>formats</span><span>hooks</span><span>retention</span><span>volume</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="badge"></div>
+        <div>
+          <h3>AI Production Pipeline</h3>
+          <p>
+            Workflow to produce content faster without killing quality:
+            scripting, assets, editing rhythm, captions, publishing.
+          </p>
+          <div class="meta">
+            <span>workflow</span><span>templates</span><span>automation</span><span>speed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="badge"></div>
+        <div>
+          <h3>Public Presence (This Page)</h3>
+          <p>
+            A clean “official links” hub that looks premium and communicates value fast.
+            Built to convert viewers into followers.
+          </p>
+          <div class="meta">
+            <span>landing</span><span>identity</span><span>clarity</span><span>conversion</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="badge"></div>
+        <div>
+          <h3>Growth Forecast (Public)</h3>
+          <p>
+            A transparent way to show what I’m building next: targets, experiments, and what’s working.
+            (No fake stats — just execution.)
+          </p>
+          <div class="meta">
+            <span>roadmap</span><span>experiments</span><span>updates</span><span>proof</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="sec-head">
+      <h2>Contact</h2>
+      <p>Simple and clean</p>
+    </div>
+
+    <div class="card">
+      <p class="sub" style="max-width:none;margin:0 0 16px;">
+        <b>EN:</b> For collaborations, brand work, or growth systems — DM or email.<br/>
+        <b>ES:</b> Para colaborar, proyectos o sistemas de crecimiento — DM o email.
+      </p>
+
+      <div class="cta">
+        <a class="btn primary" href="https://www.instagram.com/nnedkz" target="_blank" rel="noreferrer">
+          Instagram <span class="pill">dm</span>
+        </a>
+        <a class="btn" href="mailto:itzaelanzk@gmail.com">
+          Email <span class="pill">mailto</span>
+        </a>
+        <a class="btn" href="https://www.tiktok.com/@lzkszk" target="_blank" rel="noreferrer">
+          TikTok <span class="pill">follow</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <div>© <span id="y"></span> Itzael • Official links</div>
+    <div>
+      <a href="#links">Top</a> ·
+      <a href="#projects">Projects</a> ·
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
+
+<!-- EXTENSIONS / ENHANCEMENTS CONTINUE -->
+
+<style>
+  /* MICRO INTERACTIONS */
+  .tile, .proj, .stat, .btn{
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .tile:hover, .proj:hover, .stat:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(0,0,0,.45);
+    background: rgba(255,255,255,.07);
+  }
+
+  .btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(0,0,0,.35);
+  }
+
+  /* EMPHASIS BRAND */
+  h1 span,
+  .highlight{
+    background: linear-gradient(135deg,var(--accentA),var(--accentB));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  /* TIMELINE / FORECAST */
+  .timeline{
+    margin-top:28px;
+    display:grid;
+    gap:16px;
+  }
+  .step{
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.04);
+    border-radius:var(--r);
+    padding:20px;
+  }
+  .step .title{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:.4px;
+    color:var(--muted2);
+  }
+  .step h4{
+    margin:6px 0 6px;
+    font-size:16px;
+  }
+  .step p{
+    margin:0;
+    font-size:14px;
+    color:var(--muted);
+    line-height:1.6;
+  }
+</style>
+
+<section id="forecast">
+  <div class="sec-head">
+    <h2>Public Forecast</h2>
+    <p>What I’m building next (transparent & public)</p>
+  </div>
+
+  <div class="timeline">
+    <div class="step">
+      <div class="title">PHASE 01</div>
+      <h4>Scale Short-Form Ecosystems</h4>
+      <p>
+        Expand monetized Shorts channels using repeatable formats,
+        higher output cadence, and retention-first editing.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="title">PHASE 02</div>
+      <h4>Refine AI-Assisted Pipelines</h4>
+      <p>
+        Improve speed without sacrificing clarity:
+        tighter scripting, asset reuse, and cleaner publishing flow.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="title">PHASE 03</div>
+      <h4>Brand Systems & Presence</h4>
+      <p>
+        Turn growth into authority:
+        stronger positioning, clearer identity, and higher-quality public assets.
+      </p>
+    </div>
+
+    <div class="step">
+      <div class="title">PHASE 04</div>
+      <h4>Selective Collaborations</h4>
+      <p>
+        Work only with creators and brands aligned with long-term execution
+        and real performance — not hype.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="closing">
+  <div class="card" style="margin-top:60px;text-align:center;">
+    <h2 style="margin-bottom:12px;">Built for growth. Designed to last.</h2>
+    <p class="sub" style="max-width:none;">
+      This page is not a résumé — it’s a live system.
+      Updated as projects evolve, channels scale, and results compound.
+    </p>
+
+    <div class="cta" style="justify-content:center;margin-top:24px;">
+      <a class="btn primary" href="https://www.instagram.com/nnedkz" target="_blank">
+        Instagram <span class="pill">dm</span>
+      </a>
+      <a class="btn" href="https://www.tiktok.com/@lzkszk" target="_blank">
+        TikTok <span class="pill">follow</span>
+      </a>
+      <a class="btn" href="mailto:itzaelanzk@gmail.com">
+        Email <span class="pill">contact</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const sections = document.querySelectorAll("section");
+  const navLinks = document.querySelectorAll(".navlinks a");
+
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(sec => {
+      const top = window.scrollY;
+      const offset = sec.offsetTop - 120;
+      const height = sec.offsetHeight;
+      if (top >= offset && top < offset + height) {
+        current = sec.getAttribute("id");
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove("active");
+      if (link.getAttribute("href") === "#" + current) {
+        link.classList.add("active");
+      }
+    });
+  });
+</script>
+
+```html
+<!-- FINAL POLISH / BRAND REFINEMENT CONTINUES -->
+
+<style>
+  /* ACTIVE NAV STATE */
+  .navlinks a.active{
+    color:var(--text);
+    background:rgba(255,255,255,.08);
+    border:1px solid var(--line);
+  }
+
+  /* BRAND TYPOGRAPHY UPGRADE */
+  h1,h2,h3,h4{
+    font-weight:600;
+    letter-spacing:-.4px;
+  }
+
+  /* SMOOTHER SCROLL */
+  html{
+    scroll-behavior:smooth;
+  }
+
+  /* FOOTER EMPHASIS */
+  .footer b{
+    color:var(--text);
+  }
+
+  /* MOBILE TWEAKS */
+  @media(max-width:520px){
+    h1{font-size:38px}
+    .card{padding:22px}
+    .cta{gap:10px}
+  }
+</style>
+
+<section id="authority">
+  <div class="sec-head">
+    <h2>Authority Signals</h2>
+    <p>Why people trust my systems</p>
+  </div>
+
+  <div class="cols">
+    <div class="tile">
+      <h3>100K+ Audience Reach</h3>
+      <p>
+        Built and scaled short-form channels past six figures
+        using format-driven growth and platform-native strategies.
+      </p>
+      <ul>
+        <li>YouTube Shorts monetized</li>
+        <li>Organic growth only</li>
+      </ul>
+    </div>
+
+    <div class="tile">
+      <h3>Execution > Theory</h3>
+      <p>
+        No recycled advice. Everything shown here is tested,
+        iterated, and refined through real publishing.
+      </p>
+      <ul>
+        <li>Daily iteration mindset</li>
+        <li>Retention-aware decisions</li>
+      </ul>
+    </div>
+
+    <div class="tile">
+      <h3>System Thinking</h3>
+      <p>
+        Growth is treated as a system:
+        inputs, feedback loops, and measurable outputs.
+      </p>
+      <ul>
+        <li>Repeatable workflows</li>
+        <li>Clear performance signals</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="presence">
+  <div class="sec-head">
+    <h2>Web Presence</h2>
+    <p>Single source of truth</p>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="max-width:none;">
+      This page acts as my public hub — links, projects, proof, and contact.
+      No link trees. No noise. Just a clean system that converts attention into action.
+    </p>
+
+    <div class="chips" style="margin-top:18px;">
+      <span class="chip">Official links</span>
+      <span class="chip">Live updates</span>
+      <span class="chip">Project proof</span>
+      <span class="chip">Direct contact</span>
+    </div>
+  </div>
+</section>
+
+<section id="cta-final">
+  <div class="card" style="margin-top:70px;text-align:center;">
+    <h2 style="margin-bottom:10px;">Let’s build something real.</h2>
+    <p class="sub" style="max-width:none;">
+      If you care about execution, clarity, and growth that compounds —
+      this is where the conversation starts.
+    </p>
+
+    <div class="cta" style="justify-content:center;margin-top:26px;">
+      <a class="btn primary" href="https://www.instagram.com/nnedkz" target="_blank">
+        Instagram <span class="pill">dm</span>
+      </a>
+      <a class="btn" href="https://www.tiktok.com/@lzkszk" target="_blank">
+        TikTok <span class="pill">follow</span>
+      </a>
+      <a class="btn" href="mailto:itzaelanzk@gmail.com">
+        Email <span class="pill">contact</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll(".navlinks a").forEach(link=>{
+    link.addEventListener("click",()=>{
+      document.querySelectorAll(".navlinks a").forEach(l=>l.classList.remove("active"));
+      link.classList.add("active");
+    });
+  });
+</script>
+
+</div>
+</body>
+</html>
+```
+```html
+<!-- REFINED PROJECTS — PRESENCE / AURA VERSION -->
+
+<section id="projects">
+  <div class="sec-head">
+    <h2>Projects</h2>
+    <p>Public work and ongoing exploration</p>
+  </div>
+
+  <div class="projects">
+
+    <!-- PROJECT 1 -->
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>Shorts Channels</h3>
+        <p>
+          A collection of public-facing short-form channels.
+          Used to explore storytelling, timing, and audience attention in real environments.
+        </p>
+        <p>
+          The focus is consistency and clarity — publishing, observing, refining.
+          Simple ideas executed repeatedly.
+        </p>
+        <div class="meta">
+          <span>short-form</span>
+          <span>public</span>
+          <span>consistency</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>What Makes a Good Video</h3>
+        <p>
+          An ongoing exploration of what actually works in short content.
+          Not trends — fundamentals.
+        </p>
+        <p>
+          Clear ideas, strong openings, and formats that respect the viewer’s time.
+          Updated naturally as patterns reveal themselves.
+        </p>
+        <div class="meta">
+          <span>clarity</span>
+          <span>ideas</span>
+          <span>attention</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>iPeopleLine</h3>
+        <p>
+          A personal workspace for tools, notes, and structure.
+          Where thinking is organized before becoming public.
+        </p>
+        <p>
+          This is where experiments start — quietly.
+        </p>
+        <div class="meta">
+          <span>tools</span>
+          <span>notes</span>
+          <span>private</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>Web Presence</h3>
+        <p>
+          A single public reference point.
+          Links, context, and contact — without noise.
+        </p>
+        <p>
+          Built to communicate quickly and clearly.
+        </p>
+        <div class="meta">
+          <span>identity</span>
+          <span>clarity</span>
+          <span>public</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- OPTIONAL: LIGHT FOCUS SECTION -->
+
+<section id="focus">
+  <div class="sec-head">
+    <h2>Current Focus</h2>
+    <p>Kept intentionally simple</p>
+  </div>
+
+  <div class="cols">
+    <div class="tile">
+      <h3>Consistency</h3>
+      <p>
+        Showing up, publishing, and paying attention.
+        Everything else follows from that.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Clarity</h3>
+      <p>
+        Clear ideas over complex execution.
+        Fewer words. Better meaning.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Quiet Progress</h3>
+      <p>
+        Work first.
+        Explanation later — if needed.
+      </p>
+    </div>
+  </div>
+</section>
+```
+<!-- FULL CONTINUATION — PRESENCE / IDENTITY MODE -->
+
+<section id="about">
+  <div class="sec-head">
+    <h2>About</h2>
+    <p>Context without explanation</p>
+  </div>
+
+  <div class="cols">
+    <div class="tile">
+      <h3>Identity</h3>
+      <p>
+        Itzael is a digital creator focused on clarity, presence, and execution.
+        This space exists to centralize public work, links, and direction
+        without unnecessary narrative.
+      </p>
+      <p>
+        The goal is not to explain everything — only what needs to be seen.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Approach</h3>
+      <p>
+        Ideas are kept simple. Output is consistent.
+        Attention is treated with respect.
+      </p>
+      <p>
+        No pressure to perform.
+        No rush to announce.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Positioning</h3>
+      <p>
+        This page is not a portfolio, not a pitch,
+        and not a product.
+      </p>
+      <p>
+        It is a reference point.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="signals">
+  <div class="sec-head">
+    <h2>Signals</h2>
+    <p>Subtle indicators, not claims</p>
+  </div>
+
+  <div class="cols">
+    <div class="tile">
+      <h3>Consistency</h3>
+      <p>
+        Work published regularly across platforms.
+        Patterns observed over time.
+      </p>
+      <p>
+        Nothing forced.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Public Surface</h3>
+      <p>
+        Channels, posts, and pages remain visible.
+        No private dashboards.
+      </p>
+      <p>
+        What exists can be verified.
+      </p>
+    </div>
+
+    <div class="tile">
+      <h3>Restraint</h3>
+      <p>
+        Not everything is shared.
+        Not everything is explained.
+      </p>
+      <p>
+        Direction stays internal until ready.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="projects-expanded">
+  <div class="sec-head">
+    <h2>Selected Work</h2>
+    <p>Ongoing, not archived</p>
+  </div>
+
+  <div class="projects">
+
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>Shorts Channels</h3>
+        <p>
+          Public short-form channels used as a space for repetition,
+          observation, and refinement.
+        </p>
+        <p>
+          Content is intentionally simple.
+          Structure matters more than novelty.
+        </p>
+        <p>
+          Over time, consistency reveals what deserves attention
+          and what fades naturally.
+        </p>
+        <div class="meta">
+          <span>public</span>
+          <span>repetition</span>
+          <span>signal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>Content Criteria</h3>
+        <p>
+          A quiet internal standard for deciding what is worth publishing.
+        </p>
+        <p>
+          Does it communicate quickly?
+          Does it respect attention?
+          Does it feel clean?
+        </p>
+        <p>
+          If not, it doesn’t go out.
+        </p>
+        <div class="meta">
+          <span>criteria</span>
+          <span>clarity</span>
+          <span>restraint</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>iPeopleLine</h3>
+        <p>
+          A private workspace for organizing tools, notes,
+          and fragments before they become visible.
+        </p>
+        <p>
+          Nothing here is final.
+          Everything here is intentional.
+        </p>
+        <div class="meta">
+          <span>internal</span>
+          <span>structure</span>
+          <span>preparation</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="badge"></div>
+      <div>
+        <h3>Web Presence</h3>
+        <p>
+          This page itself is part of the work.
+        </p>
+        <p>
+          A controlled surface where links,
+          context, and contact live together.
+        </p>
+        <p>
+          No redirects.
+          No noise.
+        </p>
+        <div class="meta">
+          <span>identity</span>
+          <span>control</span>
+          <span>clarity</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="direction">
+  <div class="sec-head">
+    <h2>Direction</h2>
+    <p>Not a roadmap</p>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="max-width:none;">
+      Direction is kept intentionally vague.
+      Work happens quietly.
+      Updates appear only when something is ready to be seen.
+    </p>
+    <p class="sub" style="max-width:none;">
+      This avoids unnecessary expectations
+      and keeps focus where it belongs.
+    </p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-head">
+    <h2>Contact</h2>
+    <p>Direct and minimal</p>
+  </div>
+
+  <div class="card">
+    <p class="sub" style="max-width:none;">
+      For relevant conversations only.
+    </p>
+
+    <div class="cta">
+      <a class="btn primary" href="https://www.instagram.com/nnedkz" target="_blank">
+        Instagram <span class="pill">dm</span>
+      </a>
+      <a class="btn" href="mailto:itzaelanzk@gmail.com">
+        Email <span class="pill">contact</span>
+      </a>
+      <a class="btn" href="https://www.tiktok.com/@lzkszk" target="_blank">
+        TikTok <span class="pill">follow</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="closing">
+  <div class="card" style="margin-top:80px;text-align:center;">
+    <h2 style="margin-bottom:12px;">This page stays alive.</h2>
+    <p class="sub" style="max-width:none;">
+      It changes as work changes.
+      Nothing here is final.
+    </p>
+    <p class="sub" style="max-width:none;">
+      If you understand it, that’s enough.
+    </p>
+  </div>
+</section>
+
+<div class="footer">
+  <div>© <span id="y"></span> Itzael</div>
+  <div>
+    <a href="#about">About</a> ·
+    <a href="#projects">Projects</a> ·
+    <a href="#contact">Contact</a>
+  </div>
+</div>
+
+<script>
+  document.getElementById("y").textContent = new Date().getFullYear();
+</script>
+
+
+
