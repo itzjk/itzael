@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Forecast Público — Itzael</title>
+  <style>
+    :root{
+      --bg:#070A12;--bg2:#0B1020;--text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);--muted2:rgba(234,240,255,.55);
+      --line:rgba(255,255,255,.12);--r:20px;
+      --accentA:#7B5CFF;--accentB:#FF4FD8;--accentC:#2EE9FF;
+      --max:820px;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:var(--sans);color:var(--text);
+      background:radial-gradient(800px 600px at 30% 20%,rgba(123,92,255,.15),transparent 55%),
+        radial-gradient(600px 400px at 70% 70%,rgba(46,233,255,.1),transparent 55%),
+        linear-gradient(180deg,var(--bg),var(--bg2));}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:40px 20px 100px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;
+      border:1px solid var(--line);border-radius:999px;font-size:13px;
+      color:var(--muted);background:rgba(255,255,255,.05);transition:all .2s;margin-bottom:48px;}
+    .back:hover{color:var(--text);background:rgba(255,255,255,.09)}
+    .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+      color:var(--accentA);text-transform:uppercase;margin-bottom:12px}
+    h1{font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.8px;margin:0 0 20px}
+    h1 span{background:linear-gradient(135deg,var(--accentA),var(--accentC));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:48px;
+      padding-bottom:48px;border-bottom:1px solid var(--line)}
+    .card{border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+      border-radius:var(--r);padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(123,92,255,.5),transparent)}
+    h2{font-size:20px;font-weight:600;margin:0 0 16px;letter-spacing:-.3px}
+    p{color:var(--muted);line-height:1.7;margin:0 0 12px;font-size:15px}
+    p:last-child{margin-bottom:0}
+    .phase{border:1px solid var(--line);background:rgba(0,0,0,.25);
+      border-radius:14px;padding:20px;margin-bottom:12px;position:relative}
+    .phase-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+    .phase-num{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+      color:var(--accentA);text-transform:uppercase}
+    .phase-status{font-family:var(--mono);font-size:11px;padding:3px 10px;
+      border-radius:999px;border:1px solid}
+    .status-active{color:#4ade80;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.07)}
+    .status-next{color:var(--accentC);border-color:rgba(46,233,255,.3);background:rgba(46,233,255,.06)}
+    .status-future{color:var(--muted2);border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+    .phase h3{font-size:17px;font-weight:600;margin:0 0 8px}
+    .phase p{font-size:14px}
+    .phase .target{
+      margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);
+      display:flex;gap:10px;flex-wrap:wrap}
+    .target-item{font-family:var(--mono);font-size:11px;padding:3px 8px;
+      border-radius:999px;border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.2);color:var(--muted2)}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:0}
+    @media(max-width:600px){.metric-grid{grid-template-columns:1fr 1fr}}
+    .metric{background:rgba(0,0,0,.3);border:1px solid var(--line);
+      border-radius:12px;padding:14px;text-align:center}
+    .metric-n{font-family:var(--mono);font-size:22px;letter-spacing:.4px;
+      background:linear-gradient(135deg,var(--accentA),var(--accentC));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .metric-l{font-size:11px;color:var(--muted2);margin-top:4px}
+    .rec{background:rgba(123,92,255,.06);border:1px solid rgba(123,92,255,.2);
+      border-radius:14px;padding:20px;margin-top:20px}
+    .rec-label{font-family:var(--mono);font-size:11px;color:var(--accentA);
+      letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .rec p{color:var(--text);font-size:15px}
+    .cta-section{margin-top:40px;text-align:center;padding:32px;
+      border:1px solid var(--line);border-radius:var(--r);
+      background:linear-gradient(135deg,rgba(123,92,255,.08),rgba(46,233,255,.05))}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;
+      border-radius:999px;border:1px solid rgba(123,92,255,.45);
+      background:linear-gradient(135deg,rgba(123,92,255,.28),rgba(255,79,216,.18));
+      font-size:14px;font-weight:600;transition:all .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(123,92,255,.4)}
+    .lang-toggle{position:fixed;top:20px;right:20px;z-index:99;
+      display:flex;gap:2px;background:rgba(10,14,26,.8);
+      border:1px solid var(--line);border-radius:999px;padding:4px;
+      backdrop-filter:blur(12px)}
+    .lang-btn{font-size:11px;font-weight:700;letter-spacing:.06em;
+      padding:4px 10px;border-radius:999px;cursor:pointer;
+      border:none;background:transparent;color:var(--muted2);
+      font-family:var(--mono);transition:all .2s}
+    .lang-btn.active{background:linear-gradient(135deg,var(--accentA),var(--accentB));color:#fff}
+  </style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+</div>
+<div class="wrap">
+  <a class="back" href="index.html">← <span data-en="Back" data-es="Volver">Volver</span></a>
+
+  <div class="tag" data-en="Transparent Roadmap" data-es="Roadmap Transparente">Roadmap Transparente</div>
+  <h1><span data-en="Public" data-es="Forecast">Forecast</span><br/><span data-en="Forecast" data-es="Público">Público</span></h1>
+  <p class="lead" data-en="Real targets, real experiments, real results. No inflated numbers. Updated as progress happens — not curated for appearance." data-es="Objetivos reales, experimentos reales, resultados reales. Sin números inflados. Actualizado conforme avanza el progreso — no curado para apariencias.">Objetivos reales, experimentos reales, resultados reales. Sin números inflados. Actualizado conforme avanza el progreso — no curado para apariencias.</p>
+
+  <!-- CURRENT NUMBERS -->
+  <div class="card">
+    <h2 data-en="Current Numbers (Real)" data-es="Números Actuales (Reales)">Números Actuales (Reales)</h2>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-n">100K+</div>
+        <div class="metric-l" data-en="YouTube Subscribers" data-es="Suscriptores YouTube">Suscriptores YouTube</div>
+      </div>
+      <div class="metric">
+        <div class="metric-n">9K+</div>
+        <div class="metric-l" data-en="TikTok Followers" data-es="Seguidores TikTok">Seguidores TikTok</div>
+      </div>
+      <div class="metric">
+        <div class="metric-n">$4K+</div>
+        <div class="metric-l" data-en="Monthly Revenue" data-es="Ingreso Mensual">Ingreso Mensual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASES -->
+  <div class="card">
+    <h2 data-en="Active Roadmap" data-es="Roadmap Activo">Roadmap Activo</h2>
+
+    <div class="phase">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 01</span>
+        <span class="phase-status status-active" data-en="Active" data-es="Activo">Activo</span>
+      </div>
+      <h3 data-en="Scale Short-Form Ecosystems" data-es="Escalar Ecosistemas Short-Form">Escalar Ecosistemas Short-Form</h3>
+      <p data-en="Expand monetized Shorts channels. Higher posting frequency, A/B testing formats, optimizing for the algorithm's current behavior." data-es="Expandir canales de Shorts monetizados. Mayor frecuencia de publicación, pruebas A/B de formatos, optimizando para el comportamiento actual del algoritmo.">Expandir canales de Shorts monetizados. Mayor frecuencia de publicación, pruebas A/B de formatos, optimizando para el comportamiento actual del algoritmo.</p>
+      <div class="target">
+        <span class="target-item" data-en="Target: 200K subs" data-es="Meta: 200K subs">Meta: 200K subs</span>
+        <span class="target-item" data-en="Target: $8K/month" data-es="Meta: $8K/mes">Meta: $8K/mes</span>
+        <span class="target-item" data-en="3 active channels" data-es="3 canales activos">3 canales activos</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 02</span>
+        <span class="phase-status status-next" data-en="Next" data-es="Siguiente">Siguiente</span>
+      </div>
+      <h3 data-en="Refine AI Production Systems" data-es="Refinar Sistemas de Producción IA">Refinar Sistemas de Producción IA</h3>
+      <p data-en="Tighten the production pipeline. Reduce per-video time to under 10 minutes. Improve voice quality and thumbnail CTR." data-es="Ajustar el pipeline de producción. Reducir el tiempo por video a menos de 10 minutos. Mejorar calidad de voz y CTR de miniaturas.">Ajustar el pipeline de producción. Reducir el tiempo por video a menos de 10 minutos. Mejorar calidad de voz y CTR de miniaturas.</p>
+      <div class="target">
+        <span class="target-item" data-en="Sub-10 min/video" data-es="Menos de 10 min/video">Menos de 10 min/video</span>
+        <span class="target-item" data-en="CTR >6%" data-es="CTR >6%">CTR >6%</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 03</span>
+        <span class="phase-status status-future" data-en="Planned" data-es="Planeado">Planeado</span>
+      </div>
+      <h3 data-en="Build Public AI Tools" data-es="Construir Herramientas IA Públicas">Construir Herramientas IA Públicas</h3>
+      <p data-en="Turn internal tools into public SaaS products. NicheMaster OS as the first release. Target: 100 paying users by month 3." data-es="Convertir herramientas internas en productos SaaS públicos. NicheMaster OS como primer lanzamiento. Meta: 100 usuarios pagando en el mes 3.">Convertir herramientas internas en productos SaaS públicos. NicheMaster OS como primer lanzamiento. Meta: 100 usuarios pagando en el mes 3.</p>
+      <div class="target">
+        <span class="target-item" data-en="NicheMaster OS launch" data-es="Lanzamiento NicheMaster OS">Lanzamiento NicheMaster OS</span>
+        <span class="target-item" data-en="100 users" data-es="100 usuarios">100 usuarios</span>
+        <span class="target-item" data-en="MRR: $2K" data-es="MRR: $2K">MRR: $2K</span>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-header">
+        <span class="phase-num">PHASE 04</span>
+        <span class="phase-status status-future" data-en="Planned" data-es="Planeado">Planeado</span>
+      </div>
+      <h3 data-en="Selective Collaborations" data-es="Colaboraciones Selectivas">Colaboraciones Selectivas</h3>
+      <p data-en="Work with creators and businesses who need AI content systems built. Consulting and done-for-you pipelines. Only aligned projects." data-es="Trabajar con creadores y negocios que necesiten sistemas de contenido IA construidos. Consultoría y pipelines hechos para ti. Solo proyectos alineados.">Trabajar con creadores y negocios que necesiten sistemas de contenido IA construidos. Consultoría y pipelines hechos para ti. Solo proyectos alineados.</p>
+      <div class="target">
+        <span class="target-item" data-en="3-5 clients/month" data-es="3-5 clientes/mes">3-5 clientes/mes</span>
+        <span class="target-item" data-en="Quality over volume" data-es="Calidad sobre volumen">Calidad sobre volumen</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIMENTS -->
+  <div class="card">
+    <h2 data-en="Current Experiments" data-es="Experimentos Actuales">Experimentos Actuales</h2>
+    <p data-en="These are active tests. Results will update this page as data comes in." data-es="Estas son pruebas activas. Los resultados actualizarán esta página conforme entren datos.">Estas son pruebas activas. Los resultados actualizarán esta página conforme entren datos.</p>
+    <ul>
+      <li data-en="Testing AI-generated thumbnail vs manual — tracking CTR difference" data-es="Probando miniatura generada por IA vs manual — rastreando diferencia de CTR">Probando miniatura generada por IA vs manual — rastreando diferencia de CTR</li>
+      <li data-en="Posting at 3 different time windows — finding optimal upload slot" data-es="Publicando en 3 ventanas de tiempo distintas — encontrando el slot óptimo de subida">Publicando en 3 ventanas de tiempo distintas — encontrando el slot óptimo de subida</li>
+      <li data-en="5-second hook vs 3-second hook — measuring retention at 15s mark" data-es="Gancho de 5 segundos vs 3 segundos — midiendo retención en el mark de 15s">Gancho de 5 segundos vs 3 segundos — midiendo retención en el mark de 15s</li>
+      <li data-en="Spanish-only vs bilingual channel — comparing growth rate" data-es="Canal solo español vs bilingüe — comparando tasa de crecimiento">Canal solo español vs bilingüe — comparando tasa de crecimiento</li>
+    </ul>
+  </div>
+
+  <!-- RECOMMENDATION -->
+  <div class="rec">
+    <div class="rec-label" data-en="Why This Is Public" data-es="Por Qué Esto Es Público">Por Qué Esto Es Público</div>
+    <p data-en="Most people in this space share results after the fact — when everything looks clean and the numbers are already good. This forecast is public from the start. You see the targets before they're hit, the experiments before they're proven, and the failures alongside the wins. That's what real execution looks like." data-es="La mayoría de la gente en este espacio comparte resultados después del hecho — cuando todo se ve limpio y los números ya son buenos. Este forecast es público desde el inicio. Ves los objetivos antes de alcanzarlos, los experimentos antes de probarse, y los fracasos junto con los éxitos. Así se ve la ejecución real.">La mayoría de la gente en este espacio comparte resultados después del hecho — cuando todo se ve limpio y los números ya son buenos. Este forecast es público desde el inicio. Ves los objetivos antes de alcanzarlos, los experimentos antes de probarse, y los fracasos junto con los éxitos. Así se ve la ejecución real.</p>
+  </div>
+
+  <div class="cta-section">
+    <p style="color:var(--muted);margin-bottom:16px;font-size:15px" data-en="Want to follow the progress or collaborate?" data-es="¿Quieres seguir el progreso o colaborar?">¿Quieres seguir el progreso o colaborar?</p>
+    <a class="btn" href="mailto:itzaelanzk@gmail.com">itzaelanzk@gmail.com</a>
+  </div>
+</div>
+<script>
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.textContent.toLowerCase()===lang)b.classList.add('active')});
+  document.querySelectorAll('[data-en][data-es]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);if(v)el.textContent=v;
+  });
+}
+</script>
+</body>
+</html>

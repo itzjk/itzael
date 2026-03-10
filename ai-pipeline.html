@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pipeline de Producción con IA — Itzael</title>
+  <style>
+    :root{
+      --bg:#070A12;--bg2:#0B1020;--text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);--muted2:rgba(234,240,255,.55);
+      --line:rgba(255,255,255,.12);--shadow:0 18px 60px rgba(0,0,0,.55);
+      --glow:0 0 60px rgba(120,86,255,.40);--r:20px;
+      --accentA:#7B5CFF;--accentB:#FF4FD8;--accentC:#2EE9FF;
+      --max:820px;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:var(--sans);color:var(--text);
+      background:radial-gradient(900px 600px at 80% 10%,rgba(255,79,216,.18),transparent 55%),
+        radial-gradient(700px 500px at 20% 80%,rgba(123,92,255,.18),transparent 55%),
+        linear-gradient(180deg,var(--bg),var(--bg2));}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:40px 20px 100px}
+    .back{display:inline-flex;align-items:center;gap:8px;
+      padding:8px 16px;border:1px solid var(--line);border-radius:999px;
+      font-size:13px;color:var(--muted);background:rgba(255,255,255,.05);
+      transition:all .2s;margin-bottom:48px;}
+    .back:hover{color:var(--text);background:rgba(255,255,255,.09)}
+    .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+      color:var(--accentB);text-transform:uppercase;margin-bottom:12px}
+    h1{font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.8px;margin:0 0 20px}
+    h1 span{background:linear-gradient(135deg,var(--accentB),var(--accentC));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:48px;
+      padding-bottom:48px;border-bottom:1px solid var(--line)}
+    .card{border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+      border-radius:var(--r);padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(255,79,216,.4),transparent)}
+    h2{font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-.3px}
+    h3{font-size:15px;font-weight:600;margin:0 0 6px;color:var(--accentC)}
+    p{color:var(--muted);line-height:1.7;margin:0 0 12px;font-size:15px}
+    p:last-child{margin-bottom:0}
+    ul{margin:10px 0 0;padding-left:20px;color:var(--muted2);line-height:1.8;font-size:14px}
+    .flow{display:flex;flex-direction:column;gap:0;margin-top:16px}
+    .flow-step{display:flex;align-items:flex-start;gap:16px;padding:16px 0;
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    .flow-step:last-child{border-bottom:none}
+    .flow-num{width:32px;height:32px;border-radius:50%;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--mono);font-size:12px;font-weight:700;
+      background:linear-gradient(135deg,rgba(123,92,255,.3),rgba(255,79,216,.2));
+      border:1px solid rgba(123,92,255,.3);color:var(--accentA)}
+    .flow-content h3{margin-bottom:4px}
+    .flow-content p{font-size:14px;margin:0}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    @media(max-width:600px){.grid2{grid-template-columns:1fr}}
+    .tool-card{background:rgba(0,0,0,.3);border:1px solid var(--line);
+      border-radius:14px;padding:16px}
+    .tool-name{font-weight:700;font-size:14px;margin-bottom:4px;color:var(--text)}
+    .tool-use{font-size:13px;color:var(--muted2)}
+    .rec{background:rgba(46,233,255,.06);border:1px solid rgba(46,233,255,.2);
+      border-radius:14px;padding:20px;margin-top:20px}
+    .rec-label{font-family:var(--mono);font-size:11px;color:var(--accentC);
+      letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .rec p{color:var(--text);font-size:15px}
+    .cta-section{margin-top:40px;text-align:center;padding:32px;
+      border:1px solid var(--line);border-radius:var(--r);
+      background:linear-gradient(135deg,rgba(255,79,216,.08),rgba(123,92,255,.06))}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;
+      border-radius:999px;border:1px solid rgba(123,92,255,.45);
+      background:linear-gradient(135deg,rgba(123,92,255,.28),rgba(255,79,216,.18));
+      font-size:14px;font-weight:600;transition:all .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(123,92,255,.4)}
+    .lang-toggle{position:fixed;top:20px;right:20px;z-index:99;
+      display:flex;gap:2px;background:rgba(10,14,26,.8);
+      border:1px solid var(--line);border-radius:999px;padding:4px;
+      backdrop-filter:blur(12px)}
+    .lang-btn{font-size:11px;font-weight:700;letter-spacing:.06em;
+      padding:4px 10px;border-radius:999px;cursor:pointer;
+      border:none;background:transparent;color:var(--muted2);
+      font-family:var(--mono);transition:all .2s}
+    .lang-btn.active{background:linear-gradient(135deg,var(--accentA),var(--accentB));color:#fff}
+  </style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+</div>
+<div class="wrap">
+  <a class="back" href="index.html">← <span data-en="Back" data-es="Volver">Volver</span></a>
+
+  <div class="tag" data-en="Business Model 02" data-es="Modelo de Negocio 02">Modelo de Negocio 02</div>
+  <h1><span data-en="AI Production" data-es="Pipeline de">Pipeline de</span><br/><span data-en="Pipeline" data-es="Producción con IA">Producción con IA</span></h1>
+  <p class="lead" data-en="A fully automated content production system: from topic to published video without manual intervention. Hours of work compressed into minutes." data-es="Un sistema de producción de contenido completamente automatizado: desde el tema hasta el video publicado sin intervención manual. Horas de trabajo comprimidas en minutos.">Un sistema de producción de contenido completamente automatizado: desde el tema hasta el video publicado sin intervención manual. Horas de trabajo comprimidas en minutos.</p>
+
+  <!-- THE FLOW -->
+  <div class="card">
+    <h2 data-en="The Full Flow" data-es="El Flujo Completo">El Flujo Completo</h2>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-content">
+          <h3 data-en="Topic & Niche Research" data-es="Investigación de Tema y Nicho">Investigación de Tema y Nicho</h3>
+          <p data-en="AI scans trends, competitor channels, and search volume to identify what to make next." data-es="La IA escanea tendencias, canales de competidores y volumen de búsqueda para identificar qué producir.">La IA escanea tendencias, canales de competidores y volumen de búsqueda para identificar qué producir.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-content">
+          <h3 data-en="Script Generation" data-es="Generación de Script">Generación de Script</h3>
+          <p data-en="Full YouTube script generated in seconds: hook, content sections, CTA. Formatted with timestamps." data-es="Script completo generado en segundos: gancho, secciones de contenido, CTA. Formateado con timestamps.">Script completo generado en segundos: gancho, secciones de contenido, CTA. Formateado con timestamps.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-content">
+          <h3 data-en="AI Voiceover" data-es="Voz IA">Voz IA</h3>
+          <p data-en="Script converted to natural-sounding voice using ElevenLabs or similar. Multiple voices, languages, tones." data-es="Script convertido a voz natural usando ElevenLabs o similar. Múltiples voces, idiomas, tonos.">Script convertido a voz natural usando ElevenLabs o similar. Múltiples voces, idiomas, tonos.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-content">
+          <h3 data-en="Video Assembly + Captions" data-es="Montaje + Subtítulos">Montaje + Subtítulos</h3>
+          <p data-en="Background footage, transitions, and auto-generated captions. No manual editing required." data-es="Footage de fondo, transiciones y subtítulos generados automáticamente. Sin edición manual.">Footage de fondo, transiciones y subtítulos generados automáticamente. Sin edición manual.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-content">
+          <h3 data-en="Thumbnail + Title + SEO" data-es="Miniatura + Título + SEO">Miniatura + Título + SEO</h3>
+          <p data-en="AI generates multiple thumbnail options, titles optimized for CTR, and descriptions with keywords." data-es="La IA genera múltiples opciones de miniatura, títulos optimizados para CTR y descripciones con keywords.">La IA genera múltiples opciones de miniatura, títulos optimizados para CTR y descripciones con keywords.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-content">
+          <h3 data-en="Upload & Schedule" data-es="Subida y Programación">Subida y Programación</h3>
+          <p data-en="Video uploaded and scheduled automatically via YouTube API or n8n automation." data-es="Video subido y programado automáticamente via YouTube API o automatización con n8n.">Video subido y programado automáticamente via YouTube API o automatización con n8n.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="card">
+    <h2 data-en="Tools Used" data-es="Herramientas Usadas">Herramientas Usadas</h2>
+    <div class="grid2">
+      <div class="tool-card">
+        <div class="tool-name">Groq / GPT-4</div>
+        <div class="tool-use" data-en="Script & title generation" data-es="Generación de scripts y títulos">Generación de scripts y títulos</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">ElevenLabs</div>
+        <div class="tool-use" data-en="AI voice synthesis" data-es="Síntesis de voz IA">Síntesis de voz IA</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">CapCut / Remotion</div>
+        <div class="tool-use" data-en="Auto video assembly" data-es="Montaje automático de video">Montaje automático de video</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">n8n / Make</div>
+        <div class="tool-use" data-en="Workflow orchestration" data-es="Orquestación de flujos">Orquestación de flujos</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">YouTube API</div>
+        <div class="tool-use" data-en="Auto upload & schedule" data-es="Subida y programación automática">Subida y programación automática</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-name">Midjourney / DALL-E</div>
+        <div class="tool-use" data-en="Thumbnail generation" data-es="Generación de miniaturas">Generación de miniaturas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card">
+    <h2 data-en="Real Results" data-es="Resultados Reales">Resultados Reales</h2>
+    <ul>
+      <li data-en="Production time reduced from 4-6 hours to 15-30 minutes per video" data-es="Tiempo de producción reducido de 4-6 horas a 15-30 minutos por video">Tiempo de producción reducido de 4-6 horas a 15-30 minutos por video</li>
+      <li data-en="Possible to produce 5-10 videos per day with one person" data-es="Posible producir 5-10 videos al día con una persona">Posible producir 5-10 videos al día con una persona</li>
+      <li data-en="Multiple channels running simultaneously from the same pipeline" data-es="Múltiples canales corriendo simultáneamente desde el mismo pipeline">Múltiples canales corriendo simultáneamente desde el mismo pipeline</li>
+      <li data-en="Quality stays consistent — no burnout, no off days" data-es="La calidad permanece consistente — sin quemarse, sin días malos">La calidad permanece consistente — sin quemarse, sin días malos</li>
+    </ul>
+  </div>
+
+  <!-- RECOMMENDATION -->
+  <div class="rec">
+    <div class="rec-label" data-en="My Recommendation" data-es="Mi Recomendación">Mi Recomendación</div>
+    <p data-en="If you're already creating content and spending too much time on production — this pipeline cuts that time by 80-90%. Ideal for anyone running multiple channels or trying to scale without hiring. The initial setup takes time, but once it's running, it runs itself." data-es="Si ya estás creando contenido y gastando demasiado tiempo en producción — este pipeline recorta ese tiempo un 80-90%. Ideal para quien maneja múltiples canales o intenta escalar sin contratar. La configuración inicial toma tiempo, pero una vez corriendo, se maneja solo.">Si ya estás creando contenido y gastando demasiado tiempo en producción — este pipeline recorta ese tiempo un 80-90%. Ideal para quien maneja múltiples canales o intenta escalar sin contratar. La configuración inicial toma tiempo, pero una vez corriendo, se maneja solo.</p>
+  </div>
+
+  <div class="cta-section">
+    <p style="color:var(--muted);margin-bottom:16px;font-size:15px" data-en="Want help setting this up?" data-es="¿Quieres ayuda para configurar esto?">¿Quieres ayuda para configurar esto?</p>
+    <a class="btn" href="mailto:itzaelanzk@gmail.com">itzaelanzk@gmail.com</a>
+  </div>
+</div>
+<script>
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.textContent.toLowerCase()===lang)b.classList.add('active')});
+  document.querySelectorAll('[data-en][data-es]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);if(v)el.textContent=v;
+  });
+}
+</script>
+</body>
+</html>

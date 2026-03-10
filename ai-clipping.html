@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Motor de Clips con IA — Itzael</title>
+  <style>
+    :root{
+      --bg:#070A12;--bg2:#0B1020;--text:#EAF0FF;
+      --muted:rgba(234,240,255,.70);--muted2:rgba(234,240,255,.55);
+      --line:rgba(255,255,255,.12);--r:20px;
+      --accentA:#7B5CFF;--accentB:#FF4FD8;--accentC:#2EE9FF;
+      --max:820px;--mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      --sans:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:var(--sans);color:var(--text);
+      background:radial-gradient(900px 600px at 50% 5%,rgba(46,233,255,.12),transparent 55%),
+        radial-gradient(700px 500px at 10% 90%,rgba(123,92,255,.18),transparent 55%),
+        linear-gradient(180deg,var(--bg),var(--bg2));}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max);margin:0 auto;padding:40px 20px 100px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;
+      border:1px solid var(--line);border-radius:999px;font-size:13px;
+      color:var(--muted);background:rgba(255,255,255,.05);transition:all .2s;margin-bottom:48px;}
+    .back:hover{color:var(--text);background:rgba(255,255,255,.09)}
+    .tag{font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+      color:var(--accentC);text-transform:uppercase;margin-bottom:12px}
+    h1{font-size:clamp(32px,6vw,52px);line-height:1.05;letter-spacing:-.8px;margin:0 0 20px}
+    h1 span{background:linear-gradient(135deg,var(--accentC),var(--accentA));
+      -webkit-background-clip:text;background-clip:text;color:transparent}
+    .lead{font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:48px;
+      padding-bottom:48px;border-bottom:1px solid var(--line)}
+    .card{border:1px solid var(--line);
+      background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.03));
+      border-radius:var(--r);padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(46,233,255,.4),transparent)}
+    h2{font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-.3px}
+    h3{font-size:15px;font-weight:600;margin:0 0 6px;color:var(--accentC)}
+    p{color:var(--muted);line-height:1.7;margin:0 0 12px;font-size:15px}
+    p:last-child{margin-bottom:0}
+    ul{margin:10px 0 0;padding-left:20px;color:var(--muted2);line-height:1.8;font-size:14px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    @media(max-width:600px){.grid3{grid-template-columns:1fr}}
+    .platform-card{background:rgba(0,0,0,.35);border:1px solid var(--line);
+      border-radius:14px;padding:16px;text-align:center}
+    .platform-name{font-weight:700;font-size:15px;margin-bottom:6px}
+    .platform-detail{font-size:12px;color:var(--muted2);line-height:1.5}
+    .before-after{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    @media(max-width:500px){.before-after{grid-template-columns:1fr}}
+    .ba-card{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:14px;padding:18px}
+    .ba-label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+      text-transform:uppercase;margin-bottom:10px}
+    .ba-label.before{color:#FF4FD8}.ba-label.after{color:var(--accentC)}
+    .ba-card ul{margin:0;padding-left:16px}
+    .rec{background:rgba(46,233,255,.06);border:1px solid rgba(46,233,255,.2);
+      border-radius:14px;padding:20px;margin-top:20px}
+    .rec-label{font-family:var(--mono);font-size:11px;color:var(--accentC);
+      letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .rec p{color:var(--text);font-size:15px}
+    .cta-section{margin-top:40px;text-align:center;padding:32px;
+      border:1px solid var(--line);border-radius:var(--r);
+      background:linear-gradient(135deg,rgba(46,233,255,.06),rgba(123,92,255,.06))}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;
+      border-radius:999px;border:1px solid rgba(123,92,255,.45);
+      background:linear-gradient(135deg,rgba(123,92,255,.28),rgba(255,79,216,.18));
+      font-size:14px;font-weight:600;transition:all .2s;cursor:pointer}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(123,92,255,.4)}
+    .lang-toggle{position:fixed;top:20px;right:20px;z-index:99;
+      display:flex;gap:2px;background:rgba(10,14,26,.8);
+      border:1px solid var(--line);border-radius:999px;padding:4px;
+      backdrop-filter:blur(12px)}
+    .lang-btn{font-size:11px;font-weight:700;letter-spacing:.06em;
+      padding:4px 10px;border-radius:999px;cursor:pointer;
+      border:none;background:transparent;color:var(--muted2);
+      font-family:var(--mono);transition:all .2s}
+    .lang-btn.active{background:linear-gradient(135deg,var(--accentA),var(--accentB));color:#fff}
+  </style>
+</head>
+<body>
+<div class="lang-toggle">
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn active" onclick="setLang('es')">ES</button>
+</div>
+<div class="wrap">
+  <a class="back" href="index.html">← <span data-en="Back" data-es="Volver">Volver</span></a>
+
+  <div class="tag" data-en="Business Model 03" data-es="Modelo de Negocio 03">Modelo de Negocio 03</div>
+  <h1><span data-en="AI Clipping" data-es="Motor de Clips">Motor de Clips</span><br/><span data-en="Engine" data-es="con IA">con IA</span></h1>
+  <p class="lead" data-en="A system that extracts the best moments from long-form content and converts them into platform-optimized short clips. 1 video in → 10+ clips out, ready to post." data-es="Un sistema que extrae los mejores momentos de contenido largo y los convierte en clips cortos optimizados para cada plataforma. 1 video entra → 10+ clips salen, listos para publicar.">Un sistema que extrae los mejores momentos de contenido largo y los convierte en clips cortos optimizados para cada plataforma. 1 video entra → 10+ clips salen, listos para publicar.</p>
+
+  <!-- BEFORE / AFTER -->
+  <div class="card">
+    <h2 data-en="Before vs After" data-es="Antes vs Después">Antes vs Después</h2>
+    <div class="before-after">
+      <div class="ba-card">
+        <div class="ba-label before" data-en="WITHOUT the system" data-es="SIN el sistema">SIN el sistema</div>
+        <ul>
+          <li data-en="Record 1 long video" data-es="Grabar 1 video largo">Grabar 1 video largo</li>
+          <li data-en="Manually watch and mark clips" data-es="Ver manualmente y marcar clips">Ver manualmente y marcar clips</li>
+          <li data-en="Edit each clip by hand" data-es="Editar cada clip a mano">Editar cada clip a mano</li>
+          <li data-en="Add captions manually" data-es="Agregar subtítulos manualmente">Agregar subtítulos manualmente</li>
+          <li data-en="Post one platform at a time" data-es="Publicar una plataforma a la vez">Publicar una plataforma a la vez</li>
+          <li data-en="3-5 hours of extra work" data-es="3-5 horas de trabajo extra">3-5 horas de trabajo extra</li>
+        </ul>
+      </div>
+      <div class="ba-card">
+        <div class="ba-label after" data-en="WITH the system" data-es="CON el sistema">CON el sistema</div>
+        <ul>
+          <li data-en="Upload the long video" data-es="Subir el video largo">Subir el video largo</li>
+          <li data-en="AI detects high-retention moments" data-es="IA detecta momentos de alta retención">IA detecta momentos de alta retención</li>
+          <li data-en="Clips auto-edited + captioned" data-es="Clips auto-editados + subtítulados">Clips auto-editados + subtítulados</li>
+          <li data-en="Formatted for each platform" data-es="Formateados para cada plataforma">Formateados para cada plataforma</li>
+          <li data-en="Auto-distributed everywhere" data-es="Auto-distribuidos en todos lados">Auto-distribuidos en todos lados</li>
+          <li data-en="15-30 minutes total" data-es="15-30 minutos en total">15-30 minutos en total</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATFORMS -->
+  <div class="card">
+    <h2 data-en="Platforms Covered" data-es="Plataformas Cubiertas">Plataformas Cubiertas</h2>
+    <div class="grid3">
+      <div class="platform-card">
+        <div class="platform-name">YouTube Shorts</div>
+        <div class="platform-detail" data-en="9:16, max 60s, auto captions" data-es="9:16, máx 60s, subtítulos auto">9:16, máx 60s, subtítulos auto</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">TikTok</div>
+        <div class="platform-detail" data-en="9:16, 15-60s, trending audio hooks" data-es="9:16, 15-60s, hooks de audio trending">9:16, 15-60s, hooks de audio trending</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-name">Instagram Reels</div>
+        <div class="platform-detail" data-en="9:16, max 90s, cover frame" data-es="9:16, máx 90s, frame de portada">9:16, máx 90s, frame de portada</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW AI DETECTS -->
+  <div class="card">
+    <h2 data-en="How AI Detects the Best Moments" data-es="Cómo la IA Detecta los Mejores Momentos">Cómo la IA Detecta los Mejores Momentos</h2>
+    <ul>
+      <li data-en="Transcript analysis: identifies strongest statements and key reveals" data-es="Análisis de transcripción: identifica declaraciones fuertes y revelaciones clave">Análisis de transcripción: identifica declaraciones fuertes y revelaciones clave</li>
+      <li data-en="Sentiment scoring: detects emotional peaks in speech" data-es="Puntuación de sentimiento: detecta picos emocionales en el habla">Puntuación de sentimiento: detecta picos emocionales en el habla</li>
+      <li data-en="Energy detection: voice volume + pace changes signal high-retention moments" data-es="Detección de energía: volumen de voz + cambios de ritmo señalan momentos de alta retención">Detección de energía: volumen de voz + cambios de ritmo señalan momentos de alta retención</li>
+      <li data-en="Hook scoring: rates each segment by its potential to stop the scroll" data-es="Puntuación de gancho: califica cada segmento por su potencial de detener el scroll">Puntuación de gancho: califica cada segmento por su potencial de detener el scroll</li>
+    </ul>
+  </div>
+
+  <!-- WHO IS IT FOR -->
+  <div class="card">
+    <h2 data-en="Who This Is For" data-es="Para Quién">Para Quién</h2>
+    <ul>
+      <li data-en="Podcasters with hours of recorded content sitting unused" data-es="Podcasters con horas de contenido grabado sin usar">Podcasters con horas de contenido grabado sin usar</li>
+      <li data-en="YouTubers with long videos who want to push clips to TikTok/Reels" data-es="YouTubers con videos largos que quieren empujar clips a TikTok/Reels">YouTubers con videos largos que quieren empujar clips a TikTok/Reels</li>
+      <li data-en="Coaches and educators whose content deserves wider reach" data-es="Coaches y educadores cuyo contenido merece mayor alcance">Coaches y educadores cuyo contenido merece mayor alcance</li>
+      <li data-en="Anyone who wants to maximize content lifespan without extra recording" data-es="Cualquiera que quiera maximizar la vida útil del contenido sin grabar extra">Cualquiera que quiera maximizar la vida útil del contenido sin grabar extra</li>
+    </ul>
+  </div>
+
+  <!-- RECOMMENDATION -->
+  <div class="rec">
+    <div class="rec-label" data-en="My Recommendation" data-es="Mi Recomendación">Mi Recomendación</div>
+    <p data-en="If you already produce long-form content and you're not repurposing it into short clips — you're leaving 80% of your reach on the table. This system costs almost nothing to run and multiplies every video you make. Most people skip this step. Don't." data-es="Si ya produces contenido largo y no lo estás convirtiendo en clips cortos — estás dejando el 80% de tu alcance sobre la mesa. Este sistema cuesta casi nada en correr y multiplica cada video que haces. La mayoría de la gente omite este paso. No lo hagas.">Si ya produces contenido largo y no lo estás convirtiendo en clips cortos — estás dejando el 80% de tu alcance sobre la mesa. Este sistema cuesta casi nada en correr y multiplica cada video que haces. La mayoría de la gente omite este paso. No lo hagas.</p>
+  </div>
+
+  <div class="cta-section">
+    <p style="color:var(--muted);margin-bottom:16px;font-size:15px" data-en="Want this set up for your content?" data-es="¿Quieres esto configurado para tu contenido?">¿Quieres esto configurado para tu contenido?</p>
+    <a class="btn" href="mailto:itzaelanzk@gmail.com">itzaelanzk@gmail.com</a>
+  </div>
+</div>
+<script>
+function setLang(lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.textContent.toLowerCase()===lang)b.classList.add('active')});
+  document.querySelectorAll('[data-en][data-es]').forEach(el=>{
+    const v=el.getAttribute('data-'+lang);if(v)el.textContent=v;
+  });
+}
+</script>
+</body>
+</html>
