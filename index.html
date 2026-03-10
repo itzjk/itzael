@@ -7,234 +7,444 @@
 <meta name="description" content="Building systems that help creators grow faster with AI."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#02020a;--bg2:#07071a;--bg3:#0c0c20;
-  --border:rgba(255,255,255,0.06);--border2:rgba(120,80,255,0.3);
-  --p:#8b5cf6;--p2:#a78bfa;--p3:#c4b5fd;
-  --c:#22d3ee;--pk:#ec4899;--g:#4ade80;
-  --text:#f0f0fa;--muted:#6b7280;--muted2:#9ca3af;
-  --r:14px;--rl:20px;
+  --bg:#050501;
+  --bg2:#080804;
+  --bg3:#0e0e08;
+  --bg4:#141408;
+  --gold:#c9a84c;
+  --gold2:#e8c96d;
+  --gold3:#f5e09a;
+  --golddim:rgba(201,168,76,0.15);
+  --green:#4a7c59;
+  --green2:#6aa87a;
+  --green3:#8fcf9a;
+  --border:rgba(201,168,76,0.12);
+  --border2:rgba(201,168,76,0.35);
+  --text:#f0ead6;
+  --muted:rgba(240,234,214,0.5);
+  --muted2:rgba(240,234,214,0.35);
+  --r:12px;--rl:18px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(139,92,246,.4);border-radius:99px}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.4);border-radius:99px}
 a{text-decoration:none;color:inherit}
 
-/* BG MESH */
+/* BG TEXTURE */
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:
-    radial-gradient(ellipse 700px 600px at 10% 5%,rgba(120,80,255,.18),transparent),
-    radial-gradient(ellipse 600px 500px at 90% 15%,rgba(236,72,153,.12),transparent),
-    radial-gradient(ellipse 500px 400px at 60% 90%,rgba(34,211,238,.10),transparent);
+    radial-gradient(ellipse 800px 700px at 15% 0%,rgba(201,168,76,.07),transparent 60%),
+    radial-gradient(ellipse 600px 500px at 85% 100%,rgba(74,124,89,.06),transparent 60%),
+    radial-gradient(ellipse 400px 300px at 50% 50%,rgba(201,168,76,.03),transparent);
 }
 body::after{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(120,80,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(120,80,255,.03) 1px,transparent 1px);
-  background-size:56px 56px;
+  background-image:
+    linear-gradient(rgba(201,168,76,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.025) 1px,transparent 1px);
+  background-size:48px 48px;
 }
 
-/* ── NAV ── */
+/* ══ NAV ══ */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 clamp(1.25rem,4vw,3.5rem);height:62px;
-  background:rgba(2,2,10,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  padding:0 clamp(1.5rem,5vw,4rem);
+  height:64px;
+  background:rgba(5,5,1,.92);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   border-bottom:1px solid var(--border);
 }
-.nav-left{display:flex;align-items:center;gap:1rem}
-/* LOGO EYE */
-.logo-eye{
-  width:36px;height:36px;flex-shrink:0;
-  filter:drop-shadow(0 0 10px rgba(139,92,246,.7));
-  transition:filter .3s;cursor:pointer;
+.nav-left{display:flex;align-items:center;gap:.85rem}
+
+/* EYE LOGO */
+.eye-logo{
+  width:38px;height:38px;flex-shrink:0;cursor:pointer;
+  filter:drop-shadow(0 0 8px rgba(201,168,76,.6));
+  transition:filter .3s,transform .3s;
 }
-.logo-eye:hover{filter:drop-shadow(0 0 18px rgba(139,92,246,1))}
-.nav-name{
-  font-size:.95rem;font-weight:800;letter-spacing:-.01em;
-  background:linear-gradient(135deg,#c4b5fd,#22d3ee);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.eye-logo:hover{
+  filter:drop-shadow(0 0 16px rgba(201,168,76,.9));
+  transform:scale(1.06);
 }
-.nav-links{display:flex;align-items:center;gap:.15rem;list-style:none}
-.nav-links a{color:var(--muted2);font-size:.82rem;font-weight:500;padding:.4rem .75rem;border-radius:8px;transition:all .2s}
-.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav-wordmark{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem;font-weight:700;letter-spacing:.06em;
+  color:var(--gold2);text-transform:uppercase;
+}
+.nav-links{display:flex;align-items:center;gap:.1rem;list-style:none}
+.nav-links a{
+  color:var(--muted);font-size:.8rem;font-weight:500;
+  padding:.4rem .75rem;border-radius:6px;
+  letter-spacing:.04em;transition:all .2s;
+}
+.nav-links a:hover{color:var(--gold2);background:rgba(201,168,76,.07)}
 .nav-right{display:flex;align-items:center;gap:.75rem}
-/* LANG TOGGLE */
+
+/* LANG */
 .lang-toggle{
   display:flex;align-items:center;gap:2px;
-  background:rgba(255,255,255,.05);border:1px solid var(--border);
-  border-radius:8px;padding:3px;
+  background:rgba(201,168,76,.06);
+  border:1px solid var(--border);border-radius:7px;padding:3px;
 }
 .lang-btn{
-  font-size:.72rem;font-weight:700;letter-spacing:.04em;
-  padding:.25rem .55rem;border-radius:6px;cursor:pointer;
-  border:none;background:transparent;color:var(--muted2);
+  font-size:.7rem;font-weight:700;letter-spacing:.06em;
+  padding:.22rem .5rem;border-radius:5px;cursor:pointer;
+  border:none;background:transparent;color:var(--muted);
   font-family:'JetBrains Mono',monospace;transition:all .2s;
 }
-.lang-btn.active{background:var(--p);color:#fff;box-shadow:0 0 12px rgba(139,92,246,.4)}
+.lang-btn.active{background:var(--gold);color:#050501;box-shadow:0 0 10px rgba(201,168,76,.4)}
 .nav-cta{
-  background:var(--p);color:#fff !important;padding:.4rem 1rem !important;
-  border-radius:8px !important;font-weight:700 !important;font-size:.8rem !important;
-  box-shadow:0 0 20px rgba(139,92,246,.35);transition:all .2s !important;
+  display:inline-flex;align-items:center;gap:.4rem;
+  background:linear-gradient(135deg,#c9a84c,#a8873a);
+  color:#050501 !important;font-weight:800 !important;
+  font-size:.78rem !important;letter-spacing:.06em;text-transform:uppercase;
+  padding:.42rem 1.1rem !important;border-radius:7px !important;
+  box-shadow:0 0 20px rgba(201,168,76,.3);
+  transition:all .2s !important;
 }
-.nav-cta:hover{box-shadow:0 0 35px rgba(139,92,246,.6) !important;transform:translateY(-1px) !important}
+.nav-cta:hover{
+  box-shadow:0 0 35px rgba(201,168,76,.55) !important;
+  transform:translateY(-1px) !important;
+}
 
-/* ── SECTIONS ── */
-section{padding:clamp(5rem,10vw,8rem) clamp(1.25rem,5vw,4rem);position:relative;z-index:1}
+/* ══ LAYOUT ══ */
+section{padding:clamp(5rem,10vw,8rem) clamp(1.5rem,5vw,4rem);position:relative;z-index:1}
 .container{max-width:1080px;margin:0 auto}
 .sec-tag{
   display:inline-flex;align-items:center;gap:.5rem;
-  font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--p2);font-family:'JetBrains Mono',monospace;margin-bottom:1rem;
+  font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);font-family:'JetBrains Mono',monospace;margin-bottom:1rem;
 }
-.sec-tag::before{content:'';width:18px;height:1px;background:var(--p2)}
-.sec-title{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:.9rem}
-.sec-desc{color:var(--muted2);font-size:1rem;max-width:540px;line-height:1.7}
-hr.gline{border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(120,80,255,.35),rgba(34,211,238,.2),transparent)}
+.sec-tag::before{content:'';width:20px;height:1px;background:var(--gold)}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,5vw,3.5rem);font-weight:700;
+  letter-spacing:-.01em;line-height:1.1;
+  margin-bottom:.85rem;color:var(--text);
+}
+.sec-desc{color:var(--muted);font-size:.95rem;max-width:520px;line-height:1.75}
+hr.gl{
+  border:none;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),rgba(74,124,89,.2),transparent);
+}
 
-/* ── HERO ── */
-#hero{min-height:100vh;display:flex;align-items:center;padding-top:62px}
-.hero-inner{max-width:1080px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.3fr .7fr;gap:2rem;align-items:center}
+/* ══ HERO ══ */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding-top:64px;
+}
+.hero-inner{
+  max-width:1080px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1.35fr .65fr;
+  gap:3rem;align-items:center;
+}
 @media(max-width:820px){.hero-inner{grid-template-columns:1fr}}
 
-.hero-badge{
-  display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;
-  background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.25);
-  border-radius:999px;padding:.3rem .85rem;
-  font-size:.72rem;font-weight:600;color:var(--p2);font-family:'JetBrains Mono',monospace;
+/* CENTER EYE - hero decoration */
+.hero-eye-bg{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;pointer-events:none;opacity:.04;z-index:0;
+}
+
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);
+  border-radius:999px;padding:.3rem .9rem;
+  font-size:.68rem;font-weight:600;color:var(--gold2);
+  font-family:'JetBrains Mono',monospace;
+  margin-bottom:1.5rem;
   animation:fadeUp .5s ease both;
 }
-.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px rgba(74,222,128,.8);animation:blink 2s infinite}
+.kicker-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green2);
+  box-shadow:0 0 8px rgba(106,168,122,.8);
+  animation:blink 2s infinite;
+}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-name{font-size:clamp(3.5rem,8vw,6.5rem);font-weight:900;letter-spacing:-.04em;line-height:1;margin-bottom:.4rem;animation:fadeUp .5s .08s ease both}
-.hero-name span{background:linear-gradient(135deg,#f0f0fa 0%,#c4b5fd 45%,#22d3ee 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:clamp(.8rem,1.8vw,1rem);font-weight:500;color:var(--muted2);letter-spacing:.07em;margin-bottom:1.25rem;font-family:'JetBrains Mono',monospace;animation:fadeUp .5s .14s ease both}
-.hero-sub em{color:var(--p2);font-style:normal}
-.hero-line{font-size:clamp(1rem,2.2vw,1.25rem);color:var(--muted2);max-width:480px;margin-bottom:2rem;line-height:1.65;animation:fadeUp .5s .18s ease both}
+
+.hero-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(4rem,10vw,7.5rem);
+  font-weight:700;letter-spacing:.04em;
+  line-height:.95;margin-bottom:.6rem;
+  animation:fadeUp .5s .08s ease both;
+  text-transform:uppercase;
+}
+.hero-name span{
+  background:linear-gradient(135deg,#f5e09a 0%,#c9a84c 40%,#8a6f2e 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.hero-sub{
+  font-size:.8rem;font-weight:500;color:var(--muted);
+  letter-spacing:.14em;text-transform:uppercase;
+  margin-bottom:1.25rem;
+  font-family:'JetBrains Mono',monospace;
+  animation:fadeUp .5s .14s ease both;
+}
+.hero-sub em{color:var(--gold);font-style:normal}
+
+.hero-line{
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:var(--muted);max-width:460px;margin-bottom:2rem;
+  line-height:1.7;
+  animation:fadeUp .5s .18s ease both;
+}
 .hero-line strong{color:var(--text);font-weight:600}
-.hero-actions{display:flex;gap:.75rem;flex-wrap:wrap;animation:fadeUp .5s .22s ease both}
-.btn-p{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;cursor:pointer;padding:.75rem 1.6rem;border-radius:10px;font-size:.88rem;font-weight:700;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:.4rem;box-shadow:0 0 28px rgba(139,92,246,.35);transition:all .2s}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(139,92,246,.55)}
-.btn-g{background:transparent;color:var(--muted2);border:1px solid var(--border);padding:.75rem 1.6rem;border-radius:10px;font-size:.88rem;font-weight:600;font-family:'Inter',sans-serif;display:inline-flex;align-items:center;gap:.4rem;transition:all .2s;cursor:pointer}
-.btn-g:hover{border-color:var(--border2);color:var(--text);background:rgba(139,92,246,.05)}
+
+.hero-actions{
+  display:flex;gap:.75rem;flex-wrap:wrap;
+  animation:fadeUp .5s .22s ease both;
+}
+.btn-gold{
+  background:linear-gradient(135deg,#c9a84c,#a8873a);
+  color:#050501;border:none;cursor:pointer;
+  padding:.75rem 1.75rem;border-radius:8px;
+  font-size:.82rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  font-family:'Inter',sans-serif;
+  box-shadow:0 0 28px rgba(201,168,76,.3);
+  transition:all .2s;display:inline-flex;align-items:center;gap:.4rem;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(201,168,76,.5)}
+.btn-out{
+  background:transparent;color:var(--muted);
+  border:1px solid rgba(201,168,76,.25);
+  padding:.75rem 1.75rem;border-radius:8px;
+  font-size:.82rem;font-weight:600;letter-spacing:.04em;
+  font-family:'Inter',sans-serif;
+  transition:all .2s;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.4rem;
+}
+.btn-out:hover{border-color:var(--gold);color:var(--gold2);background:rgba(201,168,76,.06)}
+
+/* CHIPS */
+.chips{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:1.5rem;animation:fadeUp .5s .26s ease both}
+.chip{
+  font-size:.65rem;font-weight:600;padding:.2rem .55rem;
+  border-radius:999px;letter-spacing:.05em;
+  background:rgba(201,168,76,.06);
+  border:1px solid rgba(201,168,76,.15);
+  color:var(--gold);font-family:'JetBrains Mono',monospace;
+}
 
 /* STATS CARD */
 .hero-stats{animation:fadeUp .5s .28s ease both}
 .stats-card{
-  background:rgba(12,12,32,.8);border:1px solid var(--border);border-radius:var(--rl);
-  padding:1.75rem;backdrop-filter:blur(20px);
+  background:rgba(14,14,8,.9);
+  border:1px solid rgba(201,168,76,.18);
+  border-radius:var(--rl);padding:1.75rem;
   position:relative;overflow:hidden;
 }
-.stats-card::before{content:'';position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.7),transparent)}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.stat-item{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
-.stat-num{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;font-family:'JetBrains Mono',monospace;margin-bottom:.2rem}
-.stat-lbl{font-size:.72rem;color:var(--muted2);font-weight:500;line-height:1.3}
-.stat-clr-p{color:var(--p2)}
-.stat-clr-c{color:var(--c)}
-.stat-clr-g{color:var(--g)}
-.stat-clr-pk{color:var(--pk)}
+.stats-card::before{
+  content:'';position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.7),transparent);
+}
+.stats-card::after{
+  content:'';position:absolute;bottom:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,124,89,.4),transparent);
+}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.stat-item{
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(201,168,76,.1);
+  border-radius:10px;padding:1rem;
+}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.75rem;font-weight:700;letter-spacing:.02em;
+  margin-bottom:.15rem;
+  background:linear-gradient(135deg,#f5e09a,#c9a84c);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-lbl{font-size:.68rem;color:var(--muted2);font-weight:500;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;line-height:1.3}
+.stat-green .stat-num{
+  background:linear-gradient(135deg,#8fcf9a,#4a7c59);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.stat-note{font-size:.65rem;color:var(--muted2);margin-top:1rem;text-align:center;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;border-top:1px solid rgba(201,168,76,.1);padding-top:.75rem}
 
-/* chips */
-.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem}
-.chip{font-size:.7rem;font-weight:600;padding:.25rem .6rem;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:var(--muted2);font-family:'JetBrains Mono',monospace}
-
-/* ── ABOUT ── */
-#about{background:rgba(7,7,26,.6)}
-.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.5rem}
+/* ══ ABOUT ══ */
+#about{background:rgba(8,8,4,.7)}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
 @media(max-width:760px){.about-grid{grid-template-columns:1fr}}
-.about-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:1.75rem;transition:all .25s}
-.about-card:hover{border-color:rgba(139,92,246,.25);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.4)}
-.about-card h3{font-size:1rem;font-weight:700;margin-bottom:.6rem}
-.about-card p{color:var(--muted2);font-size:.84rem;line-height:1.65;margin-bottom:.75rem}
+.about-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:var(--rl);padding:1.75rem;
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.about-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.4),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.about-card:hover{border-color:rgba(201,168,76,.25);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.about-card:hover::before{opacity:1}
+.about-icon{font-size:1.4rem;margin-bottom:.85rem}
+.about-card h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--gold2);margin-bottom:.5rem}
+.about-card p{color:var(--muted);font-size:.83rem;line-height:1.7;margin-bottom:.75rem}
 .about-card ul{list-style:none;display:flex;flex-direction:column;gap:.3rem}
-.about-card li{font-size:.8rem;color:var(--muted);display:flex;align-items:flex-start;gap:.5rem;line-height:1.4}
-.about-card li::before{content:'▸';color:var(--p2);font-size:.7rem;margin-top:.1rem;flex-shrink:0}
+.about-card li{font-size:.78rem;color:var(--muted2);display:flex;align-items:flex-start;gap:.5rem;line-height:1.4}
+.about-card li::before{content:'◆';color:rgba(201,168,76,.5);font-size:.5rem;margin-top:.2rem;flex-shrink:0}
 .about-card b{color:var(--text)}
 
-/* ── PROJECTS ── */
+/* ══ PROJECTS ══ */
 #projects{background:var(--bg2)}
-.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:2.5rem}
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2.5rem}
 @media(max-width:760px){.projects-grid{grid-template-columns:1fr}}
-.proj-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:1.75rem;position:relative;overflow:hidden;transition:all .3s}
-.proj-card::after{content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(139,92,246,.5),rgba(34,211,238,.25),transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none}
-.proj-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.proj-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--rl);padding:1.85rem;
+  position:relative;overflow:hidden;transition:all .3s;
+}
+.proj-card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg,rgba(201,168,76,.4),rgba(74,124,89,.2),transparent);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.proj-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .proj-card:hover::after{opacity:1}
-.proj-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem}
-.proj-status{display:inline-flex;align-items:center;gap:.35rem;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;padding:.18rem .55rem;border-radius:999px;margin-bottom:.65rem}
-.s-live{background:rgba(74,222,128,.1);color:var(--g);border:1px solid rgba(74,222,128,.25)}
-.s-build{background:rgba(34,211,238,.1);color:var(--c);border:1px solid rgba(34,211,238,.25)}
-.proj-title{font-size:1.05rem;font-weight:700;margin-bottom:.4rem;letter-spacing:-.01em}
-.proj-desc{color:var(--muted2);font-size:.83rem;line-height:1.65;margin-bottom:1rem}
-.proj-tags{display:flex;flex-wrap:wrap;gap:.35rem}
-.ptag{font-size:.65rem;font-weight:600;padding:.18rem .5rem;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:var(--muted2);font-family:'JetBrains Mono',monospace}
+.proj-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
+.proj-status{
+  display:inline-flex;align-items:center;gap:.35rem;
+  font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  font-family:'JetBrains Mono',monospace;padding:.15rem .5rem;
+  border-radius:999px;margin-bottom:.65rem;
+}
+.s-live{background:rgba(74,124,89,.15);color:var(--green2);border:1px solid rgba(74,124,89,.3)}
+.s-build{background:rgba(201,168,76,.08);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:.4rem}
+.proj-desc{color:var(--muted);font-size:.82rem;line-height:1.68;margin-bottom:1rem}
+.proj-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.ptag{font-size:.62rem;font-weight:600;padding:.15rem .45rem;border-radius:5px;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);color:var(--muted2);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
 
-/* ── LABS ── */
+/* ══ LABS ══ */
 #labs{background:var(--bg)}
-.labs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.5rem}
+.labs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-top:2.5rem}
 @media(max-width:900px){.labs-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){.labs-grid{grid-template-columns:1fr}}
-.lab-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;transition:all .25s;position:relative}
-.lab-card:hover{border-color:rgba(139,92,246,.2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
-.lab-n{font-size:.65rem;font-weight:700;color:var(--p2);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:.85rem}
-.lab-title{font-size:.95rem;font-weight:700;margin-bottom:.4rem;letter-spacing:-.01em}
-.lab-desc{color:var(--muted);font-size:.8rem;line-height:1.6}
+@media(max-width:500px){.labs-grid{grid-template-columns:1fr}}
+.lab-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.5rem;
+  transition:all .25s;position:relative;
+}
+.lab-card:hover{border-color:rgba(201,168,76,.22);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.lab-n{
+  font-size:.6rem;font-weight:700;color:var(--gold);
+  font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:.85rem;
+}
+.lab-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--gold2);margin-bottom:.4rem}
+.lab-desc{color:var(--muted2);font-size:.78rem;line-height:1.6}
 
-/* ── APPLY ── */
+/* ══ APPLY ══ */
 #apply{background:var(--bg2)}
 .apply-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:3.5rem;align-items:start;margin-top:2.5rem}
 @media(max-width:760px){.apply-grid{grid-template-columns:1fr;gap:2rem}}
-.apply-info h3{font-size:1.4rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.85rem}
-.apply-info p{color:var(--muted2);font-size:.9rem;line-height:1.75;margin-bottom:1.5rem}
-.role-list{display:flex;flex-direction:column;gap:.5rem}
-.role-item{display:flex;align-items:center;gap:.65rem;padding:.65rem .9rem;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.14);border-radius:10px;font-size:.83rem;font-weight:600}
-.rdot{width:6px;height:6px;border-radius:50%;background:var(--p2);flex-shrink:0}
+.apply-info h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;color:var(--gold2);margin-bottom:.85rem}
+.apply-info p{color:var(--muted);font-size:.88rem;line-height:1.8;margin-bottom:1.5rem}
+.role-list{display:flex;flex-direction:column;gap:.45rem}
+.role-item{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.6rem .85rem;
+  background:rgba(201,168,76,.05);
+  border:1px solid rgba(201,168,76,.13);
+  border-radius:8px;font-size:.82rem;font-weight:600;color:var(--muted);
+  transition:all .2s;
+}
+.role-item:hover{border-color:rgba(201,168,76,.3);color:var(--gold2);background:rgba(201,168,76,.09)}
+.rdot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;box-shadow:0 0 6px rgba(201,168,76,.6)}
 
 /* FORM */
-.form-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rl);padding:2rem}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:.9rem}
+.form-wrap{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--rl);padding:2rem;
+  position:relative;
+}
+.form-wrap::before{
+  content:'';position:absolute;top:0;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.5),transparent);
+}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.85rem}
 @media(max-width:500px){.frow{grid-template-columns:1fr}}
-.fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.9rem}
+.fg{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.85rem}
 .fg:last-of-type{margin-bottom:0}
-.fg label{font-size:.74rem;font-weight:600;color:var(--muted2);letter-spacing:.03em}
-.fg label span{color:var(--p2)}
-.fc{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;color:var(--text);font-family:'Inter',sans-serif;transition:all .2s;outline:none;width:100%}
-.fc::placeholder{color:var(--muted)}
-.fc:focus{border-color:rgba(139,92,246,.5);box-shadow:0 0 0 3px rgba(139,92,246,.1);background:rgba(139,92,246,.04)}
-select.fc option{background:#0c0c20;color:var(--text)}
-textarea.fc{resize:vertical;min-height:105px}
-.fsub{width:100%;padding:.85rem;background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none;border-radius:10px;font-size:.88rem;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-top:1.1rem;box-shadow:0 0 28px rgba(139,92,246,.3);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
-.fsub:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(139,92,246,.5)}
-.form-ok{display:none;text-align:center;padding:3rem 1.5rem}
-.ok-icon{width:60px;height:60px;border-radius:50%;background:rgba(74,222,128,.1);border:2px solid rgba(74,222,128,.3);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 1rem;animation:pop .4s cubic-bezier(.34,1.56,.64,1) both}
+.fg label{font-size:.7rem;font-weight:600;color:var(--muted2);letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+.fg label span{color:var(--gold)}
+.fc{
+  background:rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.14);
+  border-radius:8px;padding:.7rem .9rem;
+  font-size:.85rem;color:var(--text);
+  font-family:'Inter',sans-serif;transition:all .2s;outline:none;width:100%;
+}
+.fc::placeholder{color:var(--muted2)}
+.fc:focus{border-color:rgba(201,168,76,.45);box-shadow:0 0 0 3px rgba(201,168,76,.08);background:rgba(201,168,76,.04)}
+select.fc option{background:#0e0e08;color:var(--text)}
+textarea.fc{resize:vertical;min-height:108px}
+.fsub{
+  width:100%;padding:.85rem;
+  background:linear-gradient(135deg,#c9a84c,#a8873a);
+  color:#050501;border:none;border-radius:8px;
+  font-size:.82rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  font-family:'Inter',sans-serif;cursor:pointer;margin-top:1.1rem;
+  box-shadow:0 0 28px rgba(201,168,76,.25);
+  transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem;
+}
+.fsub:hover{transform:translateY(-2px);box-shadow:0 0 45px rgba(201,168,76,.45)}
+.form-ok{display:none;text-align:center;padding:2.5rem 1.5rem}
+.ok-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(74,124,89,.15);border:2px solid rgba(74,124,89,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin:0 auto 1rem;
+  animation:pop .4s cubic-bezier(.34,1.56,.64,1) both;
+}
 @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
-.ok-title{font-size:1.1rem;font-weight:800;margin-bottom:.4rem}
-.ok-text{color:var(--muted2);font-size:.88rem;line-height:1.6}
+.ok-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--gold2);margin-bottom:.4rem}
+.ok-text{color:var(--muted);font-size:.85rem;line-height:1.65}
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;position:relative;z-index:1}
-.ft-logo{display:flex;align-items:center;gap:.6rem}
-.ft-logo svg{width:22px;height:22px;filter:drop-shadow(0 0 6px rgba(139,92,246,.5))}
-.ft-name{font-size:.85rem;font-weight:800;background:linear-gradient(135deg,#c4b5fd,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.ft-copy{font-size:.75rem;color:var(--muted);font-family:'JetBrains Mono',monospace}
+/* ══ FOOTER ══ */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem clamp(1.5rem,5vw,4rem);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;
+  position:relative;z-index:1;
+}
+.ft-left{display:flex;align-items:center;gap:.65rem}
+.ft-eye{width:24px;height:24px;filter:drop-shadow(0 0 5px rgba(201,168,76,.5))}
+.ft-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold2);
+}
+.ft-copy{font-size:.7rem;color:var(--muted2);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
 .ft-links{display:flex;gap:1.25rem;list-style:none}
-.ft-links a{color:var(--muted);font-size:.78rem;transition:color .2s}
-.ft-links a:hover{color:var(--text)}
+.ft-links a{color:var(--muted2);font-size:.75rem;transition:color .2s;letter-spacing:.04em}
+.ft-links a:hover{color:var(--gold2)}
 
 /* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+.d1{transition-delay:.1s}.d2{transition-delay:.18s}.d3{transition-delay:.26s}.d4{transition-delay:.34s}
 
-/* MOBILE NAV */
-@media(max-width:700px){
-  .nav-links{display:none}
-  .hero-inner{grid-template-columns:1fr}
-}
+@media(max-width:700px){.nav-links{display:none}}
 </style>
 </head>
 <body>
@@ -242,84 +452,139 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);d
 <!-- ══ NAV ══ -->
 <nav>
   <div class="nav-left">
-    <!-- EYE OF PROVIDENCE LOGO -->
-    <svg class="logo-eye" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- EYE OF PROVIDENCE — dollar bill / illuminati gold+green -->
+    <svg class="eye-logo" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="lg1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#c4b5fd"/>
-          <stop offset="100%" stop-color="#22d3ee"/>
+        <linearGradient id="triGold" x1="5" y1="62" x2="65" y2="62" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#8a6a1e"/>
+          <stop offset="40%" stop-color="#e8c96d"/>
+          <stop offset="100%" stop-color="#8a6a1e"/>
         </linearGradient>
-        <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.6"/>
+        <linearGradient id="eyeGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f5e09a"/>
+          <stop offset="100%" stop-color="#c9a84c"/>
+        </linearGradient>
+        <radialGradient id="irisGrad" cx="45%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#6aa87a"/>
+          <stop offset="50%" stop-color="#3a6648"/>
+          <stop offset="100%" stop-color="#1a3022"/>
         </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="1.5" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        <filter id="gf" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.2" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="outerGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="2.5" result="bg"/>
+          <feMerge><feMergeNode in="bg"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <!-- Triangle -->
-      <polygon points="30,4 56,52 4,52" stroke="url(#lg1)" stroke-width="2" fill="rgba(139,92,246,0.08)" stroke-linejoin="round" filter="url(#glow)"/>
-      <!-- Inner triangle lines -->
-      <polygon points="30,12 50,48 10,48" stroke="rgba(167,139,250,0.3)" stroke-width="0.8" fill="none"/>
-      <!-- Eye outline -->
-      <ellipse cx="30" cy="33" rx="11" ry="7" stroke="url(#lg1)" stroke-width="1.5" fill="rgba(139,92,246,0.1)" filter="url(#glow)"/>
+
+      <!-- Outer glow triangle -->
+      <polygon points="35,3 67,63 3,63" fill="rgba(201,168,76,0.06)" filter="url(#outerGlow)"/>
+
+      <!-- Main triangle -->
+      <polygon points="35,5 65,61 5,61"
+        stroke="url(#triGold)" stroke-width="1.8"
+        fill="rgba(10,8,2,0.7)" stroke-linejoin="round" filter="url(#gf)"/>
+
+      <!-- Inner triangle (brick effect) -->
+      <polygon points="35,12 59,57 11,57"
+        stroke="rgba(201,168,76,0.2)" stroke-width=".7" fill="none"/>
+
+      <!-- Horizontal lines (bricks) -->
+      <line x1="20" y1="45" x2="50" y2="45" stroke="rgba(201,168,76,0.15)" stroke-width=".6"/>
+      <line x1="16" y1="52" x2="54" y2="52" stroke="rgba(201,168,76,0.15)" stroke-width=".6"/>
+      <line x1="24" y1="38" x2="46" y2="38" stroke="rgba(201,168,76,0.1)" stroke-width=".5"/>
+
+      <!-- Eye white -->
+      <ellipse cx="35" cy="36" rx="14" ry="9"
+        fill="rgba(240,234,214,0.06)" stroke="url(#eyeGold)" stroke-width="1.4" filter="url(#gf)"/>
+
+      <!-- Upper lid shadow -->
+      <ellipse cx="35" cy="34" rx="13" ry="7" fill="rgba(0,0,0,0.3)"/>
+
       <!-- Iris -->
-      <circle cx="30" cy="33" r="5" fill="url(#rg1)" filter="url(#glow)"/>
+      <circle cx="35" cy="36" r="6.5" fill="url(#irisGrad)" filter="url(#gf)"/>
+
+      <!-- Iris ring -->
+      <circle cx="35" cy="36" r="6.5" stroke="rgba(106,168,122,0.4)" stroke-width="0.8" fill="none"/>
+      <circle cx="35" cy="36" r="4.5" stroke="rgba(106,168,122,0.2)" stroke-width="0.5" fill="none"/>
+
       <!-- Pupil -->
-      <circle cx="30" cy="33" r="2.2" fill="#0a0a1a"/>
-      <!-- Pupil shine -->
-      <circle cx="31.2" cy="31.8" r=".8" fill="rgba(255,255,255,0.7)"/>
-      <!-- Top rays -->
-      <line x1="30" y1="6" x2="30" y2="10" stroke="rgba(196,181,253,0.5)" stroke-width="0.8"/>
-      <line x1="18" y1="10" x2="20" y2="13" stroke="rgba(196,181,253,0.3)" stroke-width="0.8"/>
-      <line x1="42" y1="10" x2="40" y2="13" stroke="rgba(196,181,253,0.3)" stroke-width="0.8"/>
+      <circle cx="35" cy="36" r="2.8" fill="#050501"/>
+
+      <!-- Pupil shine (classic dollar bill look) -->
+      <circle cx="36.5" cy="34.5" r="1" fill="rgba(245,224,154,0.6)"/>
+      <circle cx="33.5" cy="37.5" r=".4" fill="rgba(245,224,154,0.3)"/>
+
+      <!-- Radiating lines (glory rays) -->
+      <line x1="35" y1="5" x2="35" y2="20" stroke="rgba(201,168,76,0.25)" stroke-width=".7"/>
+      <line x1="22" y1="8" x2="27" y2="19" stroke="rgba(201,168,76,0.15)" stroke-width=".6"/>
+      <line x1="48" y1="8" x2="43" y2="19" stroke="rgba(201,168,76,0.15)" stroke-width=".6"/>
+      <line x1="12" y1="17" x2="20" y2="24" stroke="rgba(201,168,76,0.1)" stroke-width=".5"/>
+      <line x1="58" y1="17" x2="50" y2="24" stroke="rgba(201,168,76,0.1)" stroke-width=".5"/>
+
+      <!-- Top capstone separator line -->
+      <line x1="20" y1="29" x2="50" y2="29" stroke="rgba(201,168,76,0.35)" stroke-width=".8"/>
     </svg>
-    <span class="nav-name">Itzael</span>
+    <span class="nav-wordmark">Itzael</span>
   </div>
 
   <ul class="nav-links">
-    <li><a href="#about" data-en="About" data-es="Acerca">About</a></li>
-    <li><a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a></li>
-    <li><a href="#labs" data-en="Labs" data-es="Labs">Labs</a></li>
-    <li><a href="#apply" data-en="Work With Me" data-es="Trabaja Conmigo">Work With Me</a></li>
+    <li><a href="#about" data-en="About" data-es="Acerca">Acerca</a></li>
+    <li><a href="#projects" data-en="Projects" data-es="Proyectos">Proyectos</a></li>
+    <li><a href="#labs">Labs</a></li>
+    <li><a href="#apply" data-en="Work With Me" data-es="Trabaja Conmigo">Trabaja Conmigo</a></li>
   </ul>
 
   <div class="nav-right">
     <div class="lang-toggle">
-      <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+      <button class="lang-btn active" id="btn-es" onclick="setLang('es')">ES</button>
       <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
     </div>
-    <a href="#apply" class="nav-cta" data-en="Apply →" data-es="Aplicar →">Apply →</a>
+    <a href="#apply" class="nav-cta" data-en="Apply →" data-es="Aplicar →">Aplicar →</a>
   </div>
 </nav>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-inner">
+  <!-- Giant faded eye background -->
+  <svg class="hero-eye-bg" viewBox="0 0 600 600" fill="none" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;pointer-events:none;opacity:.03;z-index:0">
+    <polygon points="300,20 580,560 20,560" stroke="#c9a84c" stroke-width="4" fill="none"/>
+    <ellipse cx="300" cy="340" rx="160" ry="100" stroke="#c9a84c" stroke-width="3" fill="none"/>
+    <circle cx="300" cy="340" r="55" fill="rgba(74,124,89,0.5)"/>
+    <circle cx="300" cy="340" r="25" fill="#050501"/>
+  </svg>
+
+  <div class="hero-inner" style="position:relative;z-index:1">
     <div>
-      <div class="hero-badge">
-        <span class="badge-dot"></span>
-        <span data-en="Currently building · Open to collaborations" data-es="Actualmente construyendo · Abierto a colaboraciones">Currently building · Open to collaborations</span>
+      <div class="hero-kicker">
+        <span class="kicker-dot"></span>
+        <span data-en="Currently building · Open to collaborations" data-es="Actualmente construyendo · Abierto a colaboraciones">Actualmente construyendo · Abierto a colaboraciones</span>
       </div>
+
       <div class="hero-name"><span>Itzael</span></div>
+
       <p class="hero-sub">
         AI Systems <em>·</em> Creator Infrastructure <em>·</em> Automation
       </p>
+
       <p class="hero-line">
-        <strong data-en="Building systems that help creators grow faster" data-es="Construyendo sistemas que ayudan a creadores a crecer más rápido">Building systems that help creators grow faster</strong>
-        <span data-en=" with AI." data-es=" con IA."> with AI.</span>
+        <strong data-en="Building systems that help creators grow faster" data-es="Construyendo sistemas que ayudan a creadores a crecer más rápido">Construyendo sistemas que ayudan a creadores a crecer más rápido</strong>
+        <span data-en=" with AI." data-es=" con IA."> con IA.</span>
       </p>
+
       <div class="hero-actions">
-        <a href="#apply" class="btn-p" data-en="Work With Me →" data-es="Trabaja Conmigo →">Work With Me →</a>
-        <a href="#projects" class="btn-g" data-en="See Projects" data-es="Ver Proyectos">See Projects</a>
+        <a href="#apply" class="btn-gold" data-en="Work With Me →" data-es="Trabaja Conmigo →">Trabaja Conmigo →</a>
+        <a href="#projects" class="btn-out" data-en="See Projects" data-es="Ver Proyectos">Ver Proyectos</a>
       </div>
-      <div class="chips" style="margin-top:1.5rem">
-        <span class="chip" data-en="100K+ YouTube" data-es="100K+ YouTube">100K+ YouTube</span>
-        <span class="chip" data-en="Shorts Monetized" data-es="Shorts Monetizados">Shorts Monetized</span>
-        <span class="chip" data-en="Growth Systems" data-es="Sistemas de Crecimiento">Growth Systems</span>
-        <span class="chip" data-en="AI Automation" data-es="Automatización IA">AI Automation</span>
-        <span class="chip" data-en="EN / ES" data-es="EN / ES">EN / ES</span>
+
+      <div class="chips">
+        <span class="chip">100K+ YouTube</span>
+        <span class="chip" data-en="Shorts Monetized" data-es="Shorts Monetizados">Shorts Monetizados</span>
+        <span class="chip" data-en="Growth Systems" data-es="Sistemas de Crecimiento">Sistemas de Crecimiento</span>
+        <span class="chip">AI Automation</span>
+        <span class="chip">EN / ES</span>
       </div>
     </div>
 
@@ -327,128 +592,114 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);d
       <div class="stats-card">
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-num stat-clr-p">100K+</div>
-            <div class="stat-lbl" data-en="YouTube Subscribers" data-es="Suscriptores YouTube">YouTube Subscribers</div>
+            <div class="stat-num">100K+</div>
+            <div class="stat-lbl" data-en="YouTube Subscribers" data-es="Suscriptores YouTube">Suscriptores YouTube</div>
+          </div>
+          <div class="stat-item stat-green">
+            <div class="stat-num">9K+</div>
+            <div class="stat-lbl" data-en="TikTok Followers" data-es="Seguidores TikTok">Seguidores TikTok</div>
           </div>
           <div class="stat-item">
-            <div class="stat-num stat-clr-c">9K+</div>
-            <div class="stat-lbl" data-en="TikTok Followers" data-es="Seguidores TikTok">TikTok Followers</div>
+            <div class="stat-num" style="font-size:1.2rem" data-en="Short-Form" data-es="Short-Form">Short-Form</div>
+            <div class="stat-lbl" data-en="Core Focus" data-es="Enfoque Principal">Enfoque Principal</div>
           </div>
-          <div class="stat-item">
-            <div class="stat-num stat-clr-g">Short-Form</div>
-            <div class="stat-lbl" data-en="Core Focus" data-es="Enfoque Principal">Core Focus</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-num stat-clr-pk">EN/ES</div>
-            <div class="stat-lbl" data-en="Bilingual" data-es="Bilingüe">Bilingual</div>
+          <div class="stat-item stat-green">
+            <div class="stat-num" style="font-size:1.2rem">EN/ES</div>
+            <div class="stat-lbl" data-en="Bilingual" data-es="Bilingüe">Bilingüe</div>
           </div>
         </div>
-        <p style="font-size:.72rem;color:var(--muted);margin-top:1rem;font-family:'JetBrains Mono',monospace;text-align:center" data-en="No fake stats — just execution." data-es="Sin estadísticas falsas — solo ejecución.">No fake stats — just execution.</p>
+        <div class="stat-note" data-en="No fake stats — just execution." data-es="Sin estadísticas falsas — solo ejecución.">Sin estadísticas falsas — solo ejecución.</div>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="gline"/>
+<hr class="gl"/>
 
 <!-- ══ ABOUT ══ -->
 <section id="about">
   <div class="container">
     <div class="reveal">
-      <span class="sec-tag" data-en="01 — About" data-es="01 — Acerca">01 — About</span>
-      <h2 class="sec-title" data-en="Who I Am" data-es="Quién Soy">Who I Am</h2>
-      <p class="sec-desc" data-en="Modern bio — focused on growth and execution, not hype." data-es="Bio moderna — enfocado en crecimiento y ejecución, sin humo.">Modern bio — focused on growth and execution, not hype.</p>
+      <span class="sec-tag" data-en="01 — About" data-es="01 — Acerca">01 — Acerca</span>
+      <h2 class="sec-title" data-en="Who I Am" data-es="Quién Soy">Quién Soy</h2>
+      <p class="sec-desc" data-en="Modern bio — growth and execution, not hype." data-es="Bio moderna — crecimiento y ejecución, sin humo.">Bio moderna — crecimiento y ejecución, sin humo.</p>
     </div>
     <div class="about-grid">
       <div class="about-card reveal d1">
-        <h3 data-en="Who I Am" data-es="Quién Soy">Who I Am</h3>
-        <p data-en="Itzael — a creator focused on digital growth and content systems. I build clean strategies that scale: formats, hooks, publishing flow, and brand presence." data-es="Itzael — un creador enfocado en crecimiento digital y sistemas de contenido. Construyo estrategias limpias que escalan: formatos, ganchos, flujo de publicación y presencia de marca.">Itzael — a creator focused on digital growth and content systems. I build clean strategies that scale: formats, hooks, publishing flow, and brand presence.</p>
+        <div class="about-icon">◈</div>
+        <h3 data-en="Who I Am" data-es="Quién Soy">Quién Soy</h3>
+        <p data-en="Itzael — a creator focused on digital growth and content systems. I build clean strategies that scale: formats, hooks, publishing flow, and brand presence." data-es="Itzael — un creador enfocado en crecimiento digital y sistemas de contenido. Construyo estrategias limpias que escalan: formatos, ganchos, flujo de publicación y presencia de marca.">Itzael — un creador enfocado en crecimiento digital y sistemas de contenido. Construyo estrategias limpias que escalan.</p>
         <ul>
-          <li><b data-en="EN:" data-es="EN:">EN:</b> <span data-en="Growth + execution, not motivation." data-es="Crecimiento + ejecución, no motivación.">Growth + execution, not motivation.</span></li>
-          <li><b data-en="ES:" data-es="ES:">ES:</b> <span data-en="Crecimiento y ejecución, sin vender humo." data-es="Crecimiento y ejecución, sin vender humo.">Crecimiento y ejecución, sin vender humo.</span></li>
+          <li><b>EN:</b> <span data-en="Growth + execution, not motivation." data-es="Growth + execution, not motivation.">Growth + execution, not motivation.</span></li>
+          <li><b>ES:</b> <span data-en="Crecimiento y ejecución, sin vender humo." data-es="Crecimiento y ejecución, sin vender humo.">Crecimiento y ejecución, sin vender humo.</span></li>
         </ul>
       </div>
       <div class="about-card reveal d2">
-        <h3 data-en="How I Work" data-es="Cómo Trabajo">How I Work</h3>
-        <p data-en="I turn messy ideas into repeatable systems: fast iteration, clear messaging, and retention-first structure." data-es="Convierto ideas desordenadas en sistemas repetibles: iteración rápida, mensajes claros y estructura centrada en la retención.">I turn messy ideas into repeatable systems: fast iteration, clear messaging, and retention-first structure.</p>
+        <div class="about-icon">◈</div>
+        <h3 data-en="How I Work" data-es="Cómo Trabajo">Cómo Trabajo</h3>
+        <p data-en="I turn messy ideas into repeatable systems: fast iteration, clear messaging, and retention-first structure." data-es="Convierto ideas desordenadas en sistemas repetibles: iteración rápida, mensajes claros y estructura centrada en la retención.">Convierto ideas desordenadas en sistemas repetibles: iteración rápida, mensajes claros, estructura centrada en la retención.</p>
         <ul>
-          <li><span data-en="Formats → hooks → editing rhythm → distribution" data-es="Formatos → ganchos → ritmo de edición → publicación">Formats → hooks → editing rhythm → distribution</span></li>
-          <li><span data-en="Long-term collaborations & serious projects" data-es="Colaboraciones serias y proyectos de nivel">Long-term collaborations & serious projects</span></li>
+          <li><span data-en="Formats → hooks → editing → distribution" data-es="Formatos → ganchos → edición → publicación">Formatos → ganchos → edición → publicación</span></li>
+          <li><span data-en="Long-term collaborations & serious projects" data-es="Colaboraciones serias y proyectos de nivel">Colaboraciones serias y proyectos de nivel</span></li>
         </ul>
       </div>
       <div class="about-card reveal d3">
-        <h3 data-en="What I'm Building" data-es="Qué Estoy Construyendo">What I'm Building</h3>
-        <p data-en="A digital identity that looks premium and performs: clean links, clear positioning, and project-based proof." data-es="Una identidad digital que se ve premium y rinde: links limpios, posicionamiento claro y prueba basada en proyectos.">A digital identity that looks premium and performs: clean links, clear positioning, and project-based proof.</p>
+        <div class="about-icon">◈</div>
+        <h3 data-en="What I'm Building" data-es="Qué Estoy Construyendo">Qué Estoy Construyendo</h3>
+        <p data-en="A digital identity that looks premium and performs: clean links, clear positioning, and project-based proof." data-es="Una identidad digital que se ve premium y rinde: links limpios, posicionamiento claro y prueba basada en proyectos.">Una identidad digital que se ve premium y rinde: links limpios, posicionamiento claro y prueba real.</p>
         <ul>
-          <li><span data-en="AI-powered content systems" data-es="Sistemas de contenido con IA">AI-powered content systems</span></li>
-          <li><span data-en="Scalable creator infrastructure" data-es="Infraestructura escalable para creadores">Scalable creator infrastructure</span></li>
+          <li><span data-en="AI-powered content systems" data-es="Sistemas de contenido con IA">Sistemas de contenido con IA</span></li>
+          <li><span data-en="Scalable creator infrastructure" data-es="Infraestructura escalable para creadores">Infraestructura escalable para creadores</span></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="gline"/>
+<hr class="gl"/>
 
 <!-- ══ PROJECTS ══ -->
 <section id="projects">
   <div class="container">
     <div class="reveal">
-      <span class="sec-tag" data-en="02 — Projects" data-es="02 — Proyectos">02 — Projects</span>
-      <h2 class="sec-title" data-en="What I'm Building" data-es="Qué Estoy Construyendo">What I'm Building</h2>
-      <p class="sec-desc" data-en="Proof and systems in production." data-es="Prueba y sistemas en producción.">Proof and systems in production.</p>
+      <span class="sec-tag" data-en="02 — Projects" data-es="02 — Proyectos">02 — Proyectos</span>
+      <h2 class="sec-title" data-en="What I'm Building" data-es="Qué Estoy Construyendo">Qué Estoy Construyendo</h2>
+      <p class="sec-desc" data-en="Proof and systems in production." data-es="Prueba y sistemas en producción.">Prueba y sistemas en producción.</p>
     </div>
     <div class="projects-grid">
-
       <div class="proj-card reveal d1">
-        <div class="proj-icon" style="background:rgba(139,92,246,.12)">🎬</div>
-        <span class="proj-status s-live">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--g);display:inline-block"></span>
-          <span data-en="Live" data-es="Activo">Live</span>
-        </span>
-        <h3 class="proj-title" data-en="Shorts Channels (Monetized)" data-es="Canales de Shorts (Monetizados)">Shorts Channels (Monetized)</h3>
-        <p class="proj-desc" data-en="Channels built around repeatable formats and retention mechanics. Focused on consistent output and scalable growth. 100K+ subscribers achieved." data-es="Canales construidos alrededor de formatos repetibles y mecánicas de retención. Enfocados en producción consistente y crecimiento escalable. 100K+ suscriptores logrados.">Channels built around repeatable formats and retention mechanics. Focused on consistent output and scalable growth. 100K+ subscribers achieved.</p>
+        <div class="proj-icon" style="background:rgba(74,124,89,.15)">🎬</div>
+        <span class="proj-status s-live"><span style="width:5px;height:5px;border-radius:50%;background:var(--green2);display:inline-block"></span><span data-en="Live" data-es="Activo">Activo</span></span>
+        <h3 class="proj-title" data-en="Shorts Channels (Monetized)" data-es="Canales de Shorts (Monetizados)">Canales de Shorts (Monetizados)</h3>
+        <p class="proj-desc" data-en="Channels built around repeatable formats and retention mechanics. 100K+ subscribers achieved through consistent output and scalable growth systems." data-es="Canales construidos alrededor de formatos repetibles y mecánicas de retención. 100K+ suscriptores logrados mediante producción consistente y sistemas de crecimiento escalable.">Canales construidos alrededor de formatos repetibles y mecánicas de retención. 100K+ suscriptores logrados.</p>
         <div class="proj-tags"><span class="ptag">formats</span><span class="ptag">hooks</span><span class="ptag">retention</span><span class="ptag">volume</span></div>
       </div>
-
       <div class="proj-card reveal d2">
-        <div class="proj-icon" style="background:rgba(34,211,238,.1)">⚡</div>
-        <span class="proj-status s-build">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--c);display:inline-block"></span>
-          <span data-en="In Development" data-es="En Desarrollo">In Development</span>
-        </span>
-        <h3 class="proj-title" data-en="AI Clipping Engine" data-es="Motor de Clips con IA">AI Clipping Engine</h3>
-        <p class="proj-desc" data-en="Automated system that identifies and extracts viral moments from long-form content. One video in, dozens of clips out, optimized for each platform's algorithm." data-es="Sistema automatizado que identifica y extrae momentos virales de contenido largo. Un video entra, docenas de clips salen, optimizados para el algoritmo de cada plataforma.">Automated system that identifies and extracts viral moments from long-form content. One video in, dozens of clips out, optimized for each platform's algorithm.</p>
+        <div class="proj-icon" style="background:rgba(201,168,76,.1)">⚡</div>
+        <span class="proj-status s-build"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block"></span><span data-en="In Development" data-es="En Desarrollo">En Desarrollo</span></span>
+        <h3 class="proj-title" data-en="AI Clipping Engine" data-es="Motor de Clips con IA">Motor de Clips con IA</h3>
+        <p class="proj-desc" data-en="Automated system that identifies and extracts viral moments from long-form content. One video in, dozens of platform-optimized clips out." data-es="Sistema automatizado que identifica y extrae momentos virales de contenido largo. Un video entra, docenas de clips optimizados salen para cada plataforma.">Sistema que identifica y extrae momentos virales de contenido largo. Un video entra, docenas de clips optimizados salen.</p>
         <div class="proj-tags"><span class="ptag">AI</span><span class="ptag">video</span><span class="ptag">automation</span><span class="ptag">short-form</span></div>
       </div>
-
       <div class="proj-card reveal d3">
-        <div class="proj-icon" style="background:rgba(74,222,128,.1)">📈</div>
-        <span class="proj-status s-live">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--g);display:inline-block"></span>
-          <span data-en="Live" data-es="Activo">Live</span>
-        </span>
-        <h3 class="proj-title" data-en="AI Production Pipeline" data-es="Pipeline de Producción con IA">AI Production Pipeline</h3>
-        <p class="proj-desc" data-en="Workflow to produce content faster without killing quality: scripting, assets, editing rhythm, captions, publishing. Less friction. More output." data-es="Flujo de trabajo para producir contenido más rápido sin perder calidad: guiones, assets, ritmo de edición, subtítulos, publicación. Menos fricción. Más producción.">Workflow to produce content faster without killing quality: scripting, assets, editing rhythm, captions, publishing. Less friction. More output.</p>
+        <div class="proj-icon" style="background:rgba(74,124,89,.12)">📈</div>
+        <span class="proj-status s-live"><span style="width:5px;height:5px;border-radius:50%;background:var(--green2);display:inline-block"></span><span data-en="Live" data-es="Activo">Activo</span></span>
+        <h3 class="proj-title" data-en="AI Production Pipeline" data-es="Pipeline de Producción IA">Pipeline de Producción IA</h3>
+        <p class="proj-desc" data-en="Workflow to produce content faster without killing quality: scripting, assets, editing rhythm, captions, publishing. Less friction. More output." data-es="Flujo de trabajo para producir contenido más rápido sin perder calidad: guiones, assets, edición, subtítulos, publicación. Menos fricción. Más producción.">Flujo para producir contenido rápido sin perder calidad: guiones, edición, subtítulos, publicación. Menos fricción, más output.</p>
         <div class="proj-tags"><span class="ptag">workflow</span><span class="ptag">templates</span><span class="ptag">automation</span><span class="ptag">speed</span></div>
       </div>
-
       <div class="proj-card reveal d4">
-        <div class="proj-icon" style="background:rgba(236,72,153,.1)">🌐</div>
-        <span class="proj-status s-build">
-          <span style="width:5px;height:5px;border-radius:50%;background:var(--c);display:inline-block"></span>
-          <span data-en="In Development" data-es="En Desarrollo">In Development</span>
-        </span>
-        <h3 class="proj-title" data-en="Growth Forecast (Public)" data-es="Pronóstico de Crecimiento (Público)">Growth Forecast (Public)</h3>
-        <p class="proj-desc" data-en="A transparent roadmap showing what I'm building next: targets, experiments, and what's working. No fake stats — just execution." data-es="Un roadmap transparente mostrando qué construyo después: objetivos, experimentos y qué funciona. Sin estadísticas falsas — solo ejecución.">A transparent roadmap showing what I'm building next: targets, experiments, and what's working. No fake stats — just execution.</p>
+        <div class="proj-icon" style="background:rgba(201,168,76,.08)">🌐</div>
+        <span class="proj-status s-build"><span style="width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block"></span><span data-en="In Development" data-es="En Desarrollo">En Desarrollo</span></span>
+        <h3 class="proj-title" data-en="Growth Forecast (Public)" data-es="Pronóstico de Crecimiento">Pronóstico de Crecimiento</h3>
+        <p class="proj-desc" data-en="Transparent roadmap: targets, experiments, what's working. No fake stats — just execution." data-es="Roadmap transparente: objetivos, experimentos, qué funciona. Sin estadísticas falsas — solo ejecución.">Roadmap transparente: objetivos, experimentos, qué funciona. Sin estadísticas falsas — solo ejecución.</p>
         <div class="proj-tags"><span class="ptag">roadmap</span><span class="ptag">experiments</span><span class="ptag">proof</span></div>
       </div>
-
     </div>
   </div>
 </section>
 
-<hr class="gline"/>
+<hr class="gl"/>
 
 <!-- ══ LABS ══ -->
 <section id="labs">
@@ -456,51 +707,51 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);d
     <div class="reveal">
       <span class="sec-tag" data-en="03 — Labs" data-es="03 — Labs">03 — Labs</span>
       <h2 class="sec-title" data-en="Experimental" data-es="Experimental">Experimental</h2>
-      <p class="sec-desc" data-en="Early-stage research and prototypes exploring what's next in AI-assisted content creation." data-es="Investigación y prototipos en etapa temprana explorando lo que viene en creación de contenido asistida por IA.">Early-stage research and prototypes exploring what's next in AI-assisted content creation.</p>
+      <p class="sec-desc" data-en="Early-stage research exploring what's next in AI-assisted content." data-es="Investigación en etapa temprana explorando lo que viene en contenido asistido por IA.">Investigación en etapa temprana explorando lo que viene en contenido asistido por IA.</p>
     </div>
     <div class="labs-grid">
       <div class="lab-card reveal d1">
         <div class="lab-n">LAB_01</div>
-        <h3 class="lab-title" data-en="Autonomous AI Agents" data-es="Agentes IA Autónomos">Autonomous AI Agents</h3>
-        <p class="lab-desc" data-en="Multi-agent systems that research, write, edit, and publish content autonomously. Testing how far full automation can go." data-es="Sistemas multi-agente que investigan, escriben, editan y publican contenido autónomamente. Probando hasta dónde puede llegar la automatización total.">Multi-agent systems that research, write, edit, and publish content autonomously. Testing how far full automation can go.</p>
+        <h3 class="lab-title" data-en="Autonomous AI Agents" data-es="Agentes IA Autónomos">Agentes IA Autónomos</h3>
+        <p class="lab-desc" data-en="Multi-agent systems that research, write, edit, and publish content autonomously." data-es="Sistemas multi-agente que investigan, escriben, editan y publican contenido autónomamente.">Sistemas multi-agente que investigan, escriben, editan y publican contenido autónomamente.</p>
       </div>
       <div class="lab-card reveal d2">
         <div class="lab-n">LAB_02</div>
-        <h3 class="lab-title" data-en="Creator Automation OS" data-es="OS de Automatización para Creadores">Creator Automation OS</h3>
-        <p class="lab-desc" data-en="Command center for creators: manage the entire content operation from ideation to revenue tracking, powered by AI." data-es="Centro de mando para creadores: gestiona toda la operación de contenido desde la ideación hasta el seguimiento de ingresos, impulsado por IA.">Command center for creators: manage the entire content operation from ideation to revenue tracking, powered by AI.</p>
+        <h3 class="lab-title" data-en="Creator Automation OS" data-es="OS de Automatización">OS de Automatización</h3>
+        <p class="lab-desc" data-en="Command center: manage the entire content operation from ideation to revenue tracking." data-es="Centro de mando: gestiona toda la operación de contenido desde la ideación hasta el seguimiento de ingresos.">Centro de mando: gestiona toda la operación de contenido, de la ideación al seguimiento de ingresos.</p>
       </div>
       <div class="lab-card reveal d3">
         <div class="lab-n">LAB_03</div>
-        <h3 class="lab-title" data-en="Clipping Intelligence Layer" data-es="Capa de Inteligencia de Clips">Clipping Intelligence Layer</h3>
-        <p class="lab-desc" data-en="AI that understands virality signals — predicts which moments will perform before publishing, not just cuts clips." data-es="IA que entiende señales de viralidad — predice qué momentos rendirán antes de publicar, no solo corta clips.">AI that understands virality signals — predicts which moments will perform before publishing, not just cuts clips.</p>
+        <h3 class="lab-title" data-en="Clipping Intelligence" data-es="Inteligencia de Clips">Inteligencia de Clips</h3>
+        <p class="lab-desc" data-en="AI that predicts which moments will go viral before publishing — not just cuts clips." data-es="IA que predice qué momentos serán virales antes de publicar — no solo corta clips.">IA que predice qué momentos serán virales antes de publicar — no solo corta clips.</p>
       </div>
       <div class="lab-card reveal d4">
         <div class="lab-n">LAB_04</div>
-        <h3 class="lab-title" data-en="Voice & Script Pipeline" data-es="Pipeline de Voz y Guiones">Voice & Script Pipeline</h3>
-        <p class="lab-desc" data-en="End-to-end: niche → AI script → voice synthesis → video render, targeting 16+ language markets simultaneously." data-es="De punta a punta: nicho → guion IA → síntesis de voz → render de video, apuntando a 16+ mercados de idiomas simultáneamente.">End-to-end: niche → AI script → voice synthesis → video render, targeting 16+ language markets simultaneously.</p>
+        <h3 class="lab-title" data-en="Voice & Script Pipeline" data-es="Pipeline Voz + Guiones">Pipeline Voz + Guiones</h3>
+        <p class="lab-desc" data-en="End-to-end: niche → AI script → voice synthesis → video, targeting 16+ markets." data-es="De punta a punta: nicho → guion IA → síntesis de voz → video, apuntando a 16+ mercados.">De punta a punta: nicho → guion IA → síntesis de voz → video, apuntando a 16+ mercados.</p>
       </div>
     </div>
   </div>
 </section>
 
-<hr class="gline"/>
+<hr class="gl"/>
 
-<!-- ══ WORK WITH ME ══ -->
+<!-- ══ APPLY ══ -->
 <section id="apply">
   <div class="container">
     <div class="reveal">
-      <span class="sec-tag" data-en="04 — Collaborate" data-es="04 — Colaborar">04 — Collaborate</span>
-      <h2 class="sec-title" data-en="Work With Me" data-es="Trabaja Conmigo">Work With Me</h2>
+      <span class="sec-tag" data-en="04 — Collaborate" data-es="04 — Colaborar">04 — Colaborar</span>
+      <h2 class="sec-title" data-en="Work With Me" data-es="Trabaja Conmigo">Trabaja Conmigo</h2>
     </div>
     <div class="apply-grid">
       <div class="apply-info reveal">
-        <h3 data-en="Let's build something real." data-es="Construyamos algo real.">Let's build something real.</h3>
-        <p data-en="I'm building systems for creators and AI automation. If you're a clipper, editor, developer, or creator who wants to collaborate, apply below." data-es="Estoy construyendo sistemas para creadores y automatización con IA. Si eres clipper, editor, desarrollador o creador y quieres colaborar, aplica abajo.">I'm building systems for creators and AI automation. If you're a clipper, editor, developer, or creator who wants to collaborate, apply below.</p>
+        <h3 data-en="Let's build something real." data-es="Construyamos algo real.">Construyamos algo real.</h3>
+        <p data-en="I'm building systems for creators and AI automation. If you're a clipper, editor, developer, or creator who wants to collaborate, apply below." data-es="Estoy construyendo sistemas para creadores y automatización IA. Si eres clipper, editor, desarrollador o creador y quieres colaborar, aplica abajo.">Estoy construyendo sistemas para creadores y automatización IA. Si eres clipper, editor, desarrollador o creador y quieres colaborar, aplica abajo.</p>
         <div class="role-list">
           <div class="role-item"><span class="rdot"></span><span data-en="Clipper" data-es="Clipper">Clipper</span></div>
           <div class="role-item"><span class="rdot"></span><span data-en="Editor" data-es="Editor">Editor</span></div>
-          <div class="role-item"><span class="rdot"></span><span data-en="Developer" data-es="Desarrollador">Developer</span></div>
-          <div class="role-item"><span class="rdot"></span><span data-en="Creator" data-es="Creador">Creator</span></div>
+          <div class="role-item"><span class="rdot"></span><span data-en="Developer" data-es="Desarrollador">Desarrollador</span></div>
+          <div class="role-item"><span class="rdot"></span><span data-en="Creator" data-es="Creador">Creador</span></div>
         </div>
       </div>
 
@@ -508,42 +759,44 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);d
         <form id="applyForm">
           <div class="frow">
             <div class="fg">
-              <label><span data-en="Name" data-es="Nombre">Name</span> <span>*</span></label>
-              <input type="text" class="fc" placeholder="Itzael" required/>
+              <label><span data-en="Name" data-es="Nombre">Nombre</span> <span>*</span></label>
+              <input type="text" class="fc" placeholder="Tu nombre" required/>
             </div>
             <div class="fg">
               <label>Email <span>*</span></label>
-              <input type="email" class="fc" placeholder="you@email.com" required/>
+              <input type="email" class="fc" placeholder="tu@email.com" required/>
             </div>
           </div>
           <div class="frow">
             <div class="fg">
-              <label><span data-en="Phone" data-es="Teléfono">Phone</span> <span style="color:var(--muted)" data-en="(optional)" data-es="(opcional)">(optional)</span></label>
+              <label><span data-en="Phone" data-es="Teléfono">Teléfono</span> <span style="color:var(--muted2)" data-en="(optional)" data-es="(opcional)">(opcional)</span></label>
               <input type="tel" class="fc" placeholder="+1 000 000 0000"/>
             </div>
             <div class="fg">
-              <label><span data-en="Role" data-es="Rol">Role</span> <span>*</span></label>
+              <label><span data-en="Role" data-es="Rol">Rol</span> <span>*</span></label>
               <select class="fc" required id="roleSelect">
-                <option value="" disabled selected data-en="Select role..." data-es="Selecciona rol...">Select role...</option>
+                <option value="" disabled selected data-en="Select role..." data-es="Selecciona rol...">Selecciona rol...</option>
                 <option value="clipper" data-en="Clipper" data-es="Clipper">Clipper</option>
                 <option value="editor" data-en="Editor" data-es="Editor">Editor</option>
-                <option value="developer" data-en="Developer" data-es="Desarrollador">Developer</option>
-                <option value="creator" data-en="Creator" data-es="Creador">Creator</option>
+                <option value="developer" data-en="Developer" data-es="Desarrollador">Desarrollador</option>
+                <option value="creator" data-en="Creator" data-es="Creador">Creador</option>
               </select>
             </div>
           </div>
           <div class="fg">
-            <label><span data-en="Message" data-es="Mensaje">Message</span> <span>*</span></label>
-            <textarea class="fc" placeholder="" required id="msgArea" data-en-ph="Tell me what you do, what you've built, and why you want to collaborate..." data-es-ph="Cuéntame qué haces, qué has construido y por qué quieres colaborar..."></textarea>
+            <label><span data-en="Message" data-es="Mensaje">Mensaje</span> <span>*</span></label>
+            <textarea class="fc" required id="msgArea"
+              data-en-ph="Tell me what you do, what you've built, and why you want to collaborate..."
+              data-es-ph="Cuéntame qué haces, qué has construido y por qué quieres colaborar..."></textarea>
           </div>
           <button type="submit" class="fsub">
-            <span data-en="Apply to Work With Me →" data-es="Aplicar para Trabajar Conmigo →">Apply to Work With Me →</span>
+            <span data-en="Apply to Work With Me →" data-es="Aplicar para Trabajar Conmigo →">Aplicar para Trabajar Conmigo →</span>
           </button>
         </form>
         <div class="form-ok" id="formOk">
           <div class="ok-icon">✓</div>
-          <h3 class="ok-title" data-en="Application Received" data-es="Aplicación Recibida">Application Received</h3>
-          <p class="ok-text" data-en="I will contact you if there's a good fit. Thank you for reaching out." data-es="Te contactaré si hay una buena compatibilidad. Gracias por comunicarte.">I will contact you if there's a good fit. Thank you for reaching out.</p>
+          <h3 class="ok-title" data-en="Application Received" data-es="Aplicación Recibida">Aplicación Recibida</h3>
+          <p class="ok-text" data-en="I will contact you if there's a good fit. Thank you." data-es="Te contactaré si hay una buena compatibilidad. Gracias.">Te contactaré si hay una buena compatibilidad. Gracias.</p>
         </div>
       </div>
     </div>
@@ -552,86 +805,81 @@ footer{border-top:1px solid var(--border);padding:2rem clamp(1.25rem,5vw,4rem);d
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <div class="ft-logo">
-    <svg viewBox="0 0 60 60" fill="none">
-      <polygon points="30,4 56,52 4,52" stroke="url(#lg1)" stroke-width="2" fill="rgba(139,92,246,0.08)" stroke-linejoin="round"/>
-      <ellipse cx="30" cy="33" rx="11" ry="7" stroke="#a78bfa" stroke-width="1.5" fill="rgba(139,92,246,0.1)"/>
-      <circle cx="30" cy="33" r="5" fill="#8b5cf6"/>
-      <circle cx="30" cy="33" r="2.2" fill="#0a0a1a"/>
-      <circle cx="31.2" cy="31.8" r=".8" fill="rgba(255,255,255,0.7)"/>
-      <defs><linearGradient id="lg1" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#c4b5fd"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient></defs>
+  <div class="ft-left">
+    <svg class="ft-eye" viewBox="0 0 70 70" fill="none">
+      <polygon points="35,5 65,61 5,61" stroke="#c9a84c" stroke-width="1.5" fill="rgba(10,8,2,0.7)"/>
+      <ellipse cx="35" cy="36" rx="14" ry="9" stroke="#c9a84c" stroke-width="1.2" fill="rgba(74,124,89,0.15)"/>
+      <circle cx="35" cy="36" r="6.5" fill="rgba(74,124,89,0.7)"/>
+      <circle cx="35" cy="36" r="2.8" fill="#050501"/>
+      <circle cx="36.5" cy="34.5" r=".9" fill="rgba(245,224,154,0.6)"/>
     </svg>
     <span class="ft-name">Itzael</span>
   </div>
   <ul class="ft-links">
-    <li><a href="#about" data-en="About" data-es="Acerca">About</a></li>
-    <li><a href="#projects" data-en="Projects" data-es="Proyectos">Projects</a></li>
+    <li><a href="#about" data-en="About" data-es="Acerca">Acerca</a></li>
+    <li><a href="#projects" data-en="Projects" data-es="Proyectos">Proyectos</a></li>
     <li><a href="#labs">Labs</a></li>
-    <li><a href="#apply" data-en="Apply" data-es="Aplicar">Apply</a></li>
+    <li><a href="#apply" data-en="Apply" data-es="Aplicar">Aplicar</a></li>
   </ul>
   <span class="ft-copy">© 2026 — Itzael</span>
 </footer>
 
 <script>
-// ── LANG ──
-let currentLang = 'es';
+let lang = 'es';
 
-function setLang(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+function setLang(l) {
+  lang = l;
+  document.getElementById('btn-es').classList.toggle('active', l==='es');
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
 
   document.querySelectorAll('[data-en][data-es]').forEach(el => {
-    const val = el.getAttribute('data-' + lang);
-    if (val !== null) {
-      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = val;
-      } else if (el.tagName === 'OPTION') {
-        el.textContent = val;
-      } else {
-        el.textContent = val;
-      }
-    }
+    const v = el.getAttribute('data-'+l);
+    if(v === null) return;
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder = v;
+    else if(el.tagName==='OPTION') el.textContent = v;
+    else el.textContent = v;
   });
 
-  // textarea placeholder
   const msg = document.getElementById('msgArea');
-  if (msg) msg.placeholder = msg.getAttribute('data-' + lang + '-ph') || '';
+  if(msg) msg.placeholder = msg.getAttribute('data-'+l+'-ph')||'';
+
+  // nav links
+  document.querySelectorAll('.nav-links a, .ft-links a').forEach(a => {
+    const v = a.getAttribute('data-'+l);
+    if(v) a.textContent = v;
+  });
 }
 
 // init ES
 setLang('es');
 
-// ── REVEAL ──
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} });
-}, {threshold:0.1});
+// reveal on scroll
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} }), {threshold:.1});
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── ACTIVE NAV ──
+// active nav
 const secs = document.querySelectorAll('section[id]');
-const navAs = document.querySelectorAll('.nav-links a');
+const nls = document.querySelectorAll('.nav-links a');
 window.addEventListener('scroll', () => {
-  let cur = '';
-  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 130) cur = s.id; });
-  navAs.forEach(a => { a.style.color = a.getAttribute('href') === '#'+cur ? 'var(--text)' : ''; });
-});
+  let cur='';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop-130) cur=s.id; });
+  nls.forEach(a => { a.style.color = a.getAttribute('href')==='#'+cur ? 'var(--gold2)' : ''; });
+}, {passive:true});
 
-// ── FORM ──
-document.getElementById('applyForm').addEventListener('submit', function(e) {
+// form
+document.getElementById('applyForm').addEventListener('submit', function(e){
   e.preventDefault();
-  const btn = this.querySelector('.fsub');
-  btn.style.opacity = '.65';
-  btn.querySelector('span').textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
-  btn.disabled = true;
+  const btn = this.querySelector('.fsub span');
+  btn.textContent = lang==='es' ? 'Enviando...' : 'Sending...';
+  this.querySelector('.fsub').disabled = true;
+  this.querySelector('.fsub').style.opacity = '.65';
   setTimeout(() => {
     this.style.display = 'none';
     const ok = document.getElementById('formOk');
     ok.style.display = 'block';
     ok.querySelectorAll('[data-en][data-es]').forEach(el => {
-      const val = el.getAttribute('data-' + currentLang);
-      if(val) el.textContent = val;
+      const v = el.getAttribute('data-'+lang);
+      if(v) el.textContent = v;
     });
   }, 900);
 });
